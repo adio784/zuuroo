@@ -217,16 +217,16 @@
                 <div data-i18n="Basic">Users</div>
               </a>
             </li>
-            
+
             <li class="menu-item">
               <a href="/manage_users_funds" class="menu-link">
                 <i class="menu-icon tf-icons bx bx-user"></i>
                 <div data-i18n="Basic">Fund User</div>
               </a>
             </li>
-            
-            
-             
+
+
+
             <li class="menu-item">
               <a href="/view_users_funds" class="menu-link">
                 <i class="menu-icon tf-icons bx bx-crown"></i>
@@ -267,11 +267,7 @@
                     <div data-i18n="Alerts">Loan period</div>
                   </a>
                 </li>
-                <li class="menu-item">
-                  <a href="loan_interest_page" class="menu-link">
-                    <div data-i18n="Alerts">Loan interest</div>
-                  </a>
-                </li> -->
+                -->
                 <li class="menu-item">
                   <a href="/sms_debtors_page" class="menu-link">
                     <div data-i18n="Alerts">SMS Debtors</div>
