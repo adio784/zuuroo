@@ -100,7 +100,6 @@ class UserController extends Controller
         $uid = Auth::user()->id;
         $data = array(
             'LoanInfo' => LoanHistory::where('user_id', $uid)
-                                    ->where('processing_state', 'successful')
                                     ->where('payment_status', 'pending')
                                     ->where('payment_status', 'partially')
                                     ->latest()
