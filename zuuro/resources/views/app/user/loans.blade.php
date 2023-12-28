@@ -8,10 +8,15 @@
           <div class="col-md-12">
             <ul class="nav nav-pills flex-column flex-md-row mb-3">
               <li class="nav-item">
-                <a class="nav-link active" href="javascript:void(0);"><i class="bx bx-user me-1"></i> Loan Amount:  
+                <a class="nav-link active" href="javascript:void(0);"><i class="bx bx-user me-1"></i> Paid Loan
                     <!--@if ( $OutLoan->sum('loan_amount') != 0) {{ number_format( $OutLoan->sum('loan_amount') + 50 ) }} @else {{ '0' }} @endif -->
                     <!--(#50 charges inclusive)-->
                 </a>
+              </li>
+              <li class="nav-item">
+                <a class="nav-link" href="/out_loans"
+                  ><i class="bx bx-link-alt me-1"></i> Outstanding Loan</a
+                >
               </li>
               <li class="nav-item">
                 <a class="nav-link" href="/funds"
