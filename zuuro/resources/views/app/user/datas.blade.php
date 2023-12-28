@@ -12,7 +12,7 @@
 
                     <hr class="my-0" />
                     <div class="card-body">
-                    <form id="formAccountSettings" method="POST" action="/datas">
+                    <form id="1formAccountSettings" method="POST" action="/datas">
                       {{-- action="/datas" --}}
                       @csrf
                       {{-- {!! csrf_field() !!} --}}
