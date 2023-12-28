@@ -371,7 +371,7 @@ class DataController extends Controller
                                             'Ported_number' => true
                                         ];
 
-                                        $createNigData = json_decode( $this->DataRepository->createNgData($DataDetails) );
+                                        $createNigData = json_decode($this->DataRepository->createNgData($DataDetails));
                                         // return $createNigData;
                                         // return response()->json([
                                         //             'success'       => false,
@@ -379,9 +379,7 @@ class DataController extends Controller
                                         //             'message'       => $createNigData
                                         //         ]);
 
-                                        if( $createNigData ){
-
-
+                                        if( $createNigData && isset($createNigData->plan_name) ){
                                             // Store returned data in DB ------------------------------------------------------------
 
                                             $HistoryDetails = [
