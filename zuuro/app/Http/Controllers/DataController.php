@@ -174,7 +174,7 @@ class DataController extends Controller
                                 // --------------------------------------------------------------------------
 
                             }else{
-                                return $createNigData;
+                                // return $createNigData;
                                 // Store returned data in DB ---------------------------------------------------
                                 $HistoryDetails = [
                                     'user_id'               =>  $uid,
