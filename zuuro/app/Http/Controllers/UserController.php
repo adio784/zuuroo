@@ -101,7 +101,7 @@ class UserController extends Controller
         $data = array(
             'LoanInfo' => LoanHistory::where('user_id', $uid)
                                     ->where('payment_status', 'pending')
-                                    ->where('payment_status', 'partially')
+                                    ->orWhere('payment_status', 'partially')
                                     ->latest()
                                     ->get(),
         );
