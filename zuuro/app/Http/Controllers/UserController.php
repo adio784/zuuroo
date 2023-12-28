@@ -95,6 +95,19 @@ class UserController extends Controller
         );
         return view('app.user.loans', $data);
     }
+
+    public function out_loans() {
+        $uid = Auth::user()->id;
+        $data = array(
+            'LoanInfo' => LoanHistory::where('user_id', $uid)
+                                    ->where('processing_state', 'successful')
+                                    ->where('payment_status', 'pending')
+                                    ->where('payment_status', 'partially')
+                                    ->latest()
+                                    ->get(),
+        );
+        return view('app.user.out_loans', $data);
+    }
     public function user_loan_receipt($id){
         $data = array(
             'Info' => LoanHistory::join('users', 'users.id', 'loan_histories.user_id')

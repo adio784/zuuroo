@@ -75,7 +75,8 @@ Route::group(['middleware' => ['auth', 'verified']], function () {
     Route::get('/airtimes', [UserController::class, 'airtimes']);
     Route::get('/fund_histories', [UserController::class, 'fund_histories']);
     Route::get('/getToken', [DataController::class, 'createData']);
-    Route::get('/loans', [UserController::class, 'loans']);
+    Route::get('/loans', [UserController::class, 'out_loans']);
+    Route::get('/paid_loans', [UserController::class, 'loans']);
     Route::get('/supports', [UserController::class, 'supports']);
     Route::get('/faqs', [UserController::class, 'faqs']);
     Route::get('/user_profile', [UserController::class, 'userProfile']);
@@ -98,7 +99,7 @@ Route::group(['middleware' => ['auth', 'verified']], function () {
     Route::post('/update_password', [UserController::class, 'update_password']);
     Route::post('/update_phoneNumber', [UserController::class, 'update_phoneNumber']);
     Route::post('/initialize_transaction', [UserController::class, 'initialize_transaction']);
- 
+
 
     Route::get('user_loanreceipt/{id}', [UserController::class, 'user_loan_receipt']);
     Route::get('/postpayment_callback.php', [PaystackController::class, 'verfifyPayment']);
