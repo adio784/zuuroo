@@ -75,8 +75,8 @@ Route::group(['middleware' => ['auth', 'verified']], function () {
     Route::get('/airtimes', [UserController::class, 'airtimes']);
     Route::get('/fund_histories', [UserController::class, 'fund_histories']);
     Route::get('/getToken', [DataController::class, 'createData']);
-    Route::get('/loans', [UserController::class, 'out_loans']);
     Route::get('/paid_loans', [UserController::class, 'loans']);
+    Route::get('/out_loans', [UserController::class, 'out_loans']);
     Route::get('/supports', [UserController::class, 'supports']);
     Route::get('/faqs', [UserController::class, 'faqs']);
     Route::get('/user_profile', [UserController::class, 'userProfile']);

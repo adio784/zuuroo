@@ -8,7 +8,7 @@
           <div class="col-md-12">
             <ul class="nav nav-pills flex-column flex-md-row mb-3">
               <li class="nav-item">
-                <a class="nav-link active" href="/loans"><i class="bx bx-user me-1"></i> Paid Loan
+                <a class="nav-link" href="/paid_loans"><i class="bx bx-user me-1"></i> Paid Loan
                 </a>
               </li>
               <li class="nav-item">

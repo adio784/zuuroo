@@ -48,7 +48,7 @@
     <!-- Page CSS -->
     <link rel="stylesheet" type="text/css" href="https://cdn.datatables.net/1.12.1/css/jquery.dataTables.min.css">
     <link rel="stylesheet" type="text/css" href="https://cdn.datatables.net/buttons/2.2.3/css/buttons.dataTables.min.css">
-    
+
 
     <!-- Core JS -->
     <!-- build:js assets/vendor/js/core.js -->
@@ -62,7 +62,7 @@
     <script src="/js/config.js"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf/1.3.4/jspdf.debug.js" ></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf/1.3.4/jspdf.min.js" ></script>
-    
+
 
 
     <style>
@@ -76,12 +76,12 @@
             .print-hidden {
                 display: none;
             }
-            
+
             a {
                 display: none;
             }
         }
-      
+
     </style>
 
   <script>
@@ -183,14 +183,14 @@
             <li class="menu-header small text-uppercase">
               <span class="menu-header-text">Pages</span>
             </li>
-            
+
             <li class="menu-item @if( Request::path() =='transactions'){{ 'active' }}@endif">
               <a href="{{ ('/transactions') }}" class="menu-link ">
                 <i class="menu-icon tf-icons bx bx-lock-open-alt"></i>
                 <div data-i18n="Authentications">Transactions</div>
               </a>
             </li>
-            
+
             <!-- Data -->
             <li class="menu-item @if( Request::path() =='datas'){{ 'active' }}@endif">
               <a href="{{('/datas')}}" class="menu-link">
@@ -207,11 +207,26 @@
               </a>
             </li>
             <!-- Loan -->
-            <li class="menu-item @if( Request::path() =='loans'){{ 'active' }}@endif">
-              <a href="{{('/loans')}}" class="menu-link">
+            <li class="menu-item @if( Request::path() =='out_loans' || Request::path() =='paid_loans'){{ 'active' }}@endif">
+              <a href="#" class="menu-link menu-toggle">
                 <i class="menu-icon tf-icons bx bx-collection"></i>
                 <div data-i18n="Boxicons">Zuuroo Loan</div>
               </a>
+
+              <ul class="menu-sub">
+
+                <li class="menu-item @if( Request::path() =='out_loans'){{ 'active' }}@endif">
+                  <a href="{{('/out_loans')}}" class="menu-link">
+                    <div data-i18n="Perfect Scrollbar">Outstanding</div>
+                  </a>
+                </li>
+
+                <li class="menu-item @if( Request::path() =='paid_loans'){{ 'active' }}@endif">
+                  <a href="{{('/paid_loans')}}" class="menu-link">
+                    <div data-i18n="Text Divider">Paid</div>
+                  </a>
+                </li>
+              </ul>
             </li>
 
              <!-- Pricing -->
@@ -220,27 +235,27 @@
                 <i class="menu-icon tf-icons bx bx-wallet"></i>
                 <div data-i18n="Extended UI">Fund Wallet</div>
               </a>
-              <ul class="menu-sub"> 
-                
+              <ul class="menu-sub">
+
                 <li class="menu-item">
                   <a href="{{('/abts')}}" class="menu-link">
                     <div data-i18n="Perfect Scrollbar">ABT- Automated Bank Transfer</div>
                   </a>
                 </li>
-                
+
                 <li class="menu-item @if( Request::path() =='funds'){{ 'active' }}@endif">
                   <a href="{{('/funds')}}" class="menu-link">
                     <div data-i18n="Text Divider">Card Funding</div>
                   </a>
                 </li>
-                
+
                 <li class="menu-item @if( Request::path() =='fund_histories'){{ 'active' }}@endif">
                   <a href="{{('/fund_histories')}}" class="menu-link">
                     <div data-i18n="Text Divider">Fund History</div>
                   </a>
                 </li>
               </ul>
-            </li> 
+            </li>
 
             <!-- Pricing -->
             <!-- <li class="menu-item">
@@ -262,7 +277,7 @@
               </ul>
             </li> -->
 
-            
+
 
             <!-- Others -->
             <li class="menu-header small text-uppercase"><span class="menu-header-text">Other &amp; Action</span></li>
@@ -318,9 +333,9 @@
               <!-- /Search -->
 
               <ul class="navbar-nav ms-auto">
-                
+
               </ul>
-            
+
               <ul class="navbar-nav flex-row align-items-center ms-auto">
                 <!-- Place this tag where you want the button to render. -->
                 <li class="nav-item lh-1 me-3">
@@ -341,7 +356,7 @@
                     <div class="avatar avatar-online">
                       <img src="/img/avatars/usr-img.png" alt class="w-px-40 h-auto rounded-circle" />
                     </div>
-                    
+
                     {{-- {{ session('LoggedUserPicture') }} --}}
                   </a>
                   <ul class="dropdown-menu dropdown-menu-end">
@@ -404,7 +419,7 @@
                     @else
                         <li>
                             <div class="" aria-labelledby="navbarDropdown">
-                              
+
                                 <a class="dropdown-item" href="{{ route('logout') }}"
                                   onclick="event.preventDefault();
                                                 document.getElementById('logout-form').submit();">
@@ -493,7 +508,7 @@
     <script src="https://unpkg.com/jspdf-autotable@3.5.25/dist/jspdf.plugin.autotable.js"></script>
 
     {{-- paystack cdn --}}
-    <script src="https://js.paystack.co/v1/inline.js"></script> 
+    <script src="https://js.paystack.co/v1/inline.js"></script>
     <script src="https://checkout.flutterwave.com/v3.js"></script>
 
 
@@ -512,7 +527,7 @@
 
     <!-- Place this tag in your head or just before your close body tag. -->
     <script async defer src="https://buttons.github.io/buttons.js"></script>
-    
+
 
     <!--End of Tawk.to Script-->
   </body>
