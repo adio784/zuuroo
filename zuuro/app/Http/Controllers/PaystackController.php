@@ -190,11 +190,11 @@ class PaystackController extends Controller
         $response = json_encode($body);
         $data = json_decode($response);
         if ($data->eventType == 'SUCCESSFUL_TRANSACTION') {
-
+            Log::debug(['Data Received' => $body]) ;
             $PaymentRef = $data->eventData->product->reference;
             $deposit    = $this->PaymentRepository->getPaymentByRef($PaymentRef);
-            if ($deposit == "[]") {
-                Log::debug(['Data Received' => $body]) ;
+            if (Payment::where('reference', $PaymentRef)->count() < 1) {
+                Log::debug(['Data Sucess' => 'Reference DO Not Exist'.$deposit ]) ;
                 $uid        = $data->eventData->customer->email; //$request->input('eventData.customer.email');
                 $amt        = ($data->eventData->amountPaid / 100);
 
@@ -284,7 +284,8 @@ class PaystackController extends Controller
                     Log::debug(['Data Error' => 'Amout less than 50 Naira']) ;
                 }
             } else {
-                Log::debug(['Data Not Received']) ;
+
+                Log::debug(['Data Not Received' => $deposit ]) ;
             }
 
         }
