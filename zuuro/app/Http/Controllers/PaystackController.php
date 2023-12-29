@@ -185,7 +185,7 @@ class PaystackController extends Controller
     {
 
         $body = $request->all();
-        Log::debug(['Data Received' => $body]) ;
+
 
         $response = json_encode($body);
         $data = json_decode($response);
@@ -194,24 +194,23 @@ class PaystackController extends Controller
             $PaymentRef = $data->eventData->product->reference;
             $deposit    = $this->PaymentRepository->getPaymentByRef($PaymentRef);
             if ($deposit == "[]") {
-
+                Log::debug(['Data Received' => $body]) ;
                 $uid        = $data->eventData->customer->email; //$request->input('eventData.customer.email');
                 $amt        = ($data->eventData->amountPaid / 100);
 
                 if ( $amt > 50 ) {
+                    Log::debug(['Data Sucess' => 'Amount Greater than 50 Naira']) ;
                     $amount     = $amt - 50;
                     $user       = User::where('email', $uid)->first();
-                    $Userid     = $user->id;
-                    $userWallet = Wallet::where('user_id', $Userid)->first();
-                    $newBal     = $userWallet->balance + $amount;
 
-                    $userLoan = LoanHistory::where('user_id', $Userid)
-                                            ->where('payment_status', 'pending')
-                                            ->orWhere('payment_status', 'partially')
-                                            ->where('processing_state', 'successful')
-                                            ->first();
 
                     if ( $user ) {
+                        Log::debug(['Data Received' => $body]) ;
+
+                        $Userid     = $user->id;
+                        $userWallet = Wallet::where('user_id', $Userid)->first();
+                        $newBal     = $userWallet->balance + $amount;
+
 
                         //Deposit Payment amount to Deposit
                         $PaymentDetails = [
@@ -227,14 +226,23 @@ class PaystackController extends Controller
                         $deposited = $this->PaymentRepository->createPayment($PaymentDetails);
 
                         if ($deposited) {
+                            Log::debug(['Data Sucess' => 'User Payment Deposited']) ;
 
                             // Check if user is oweing ...................................................
-                            if( $userLoan != "" )
+                            $userLoan = LoanHistory::where('user_id', $Userid)
+                                                ->where('payment_status', 'pending')
+                                                ->orWhere('payment_status', 'partially')
+                                                ->where('processing_state', 'successful')
+                                                ->first();
+
+                            if( $userLoan != "[]" )
                             {
 
+                                Log::debug(['Data Success' => 'User is Oweing us']) ;
                                 $loanAmountToPay = $userLoan->loan_amount;
                                 if( $amount > $loanAmountToPay )
                                 {
+                                    Log::debug(['Data Success' => 'Payment Successful And Used To Settle Your Outstanding Loan' ]) ;
                                     $new_loanBal = $amount - $loanAmountToPay;
                                         LoanHistory::where('user_id', $Userid)->update(['payment_status' => 'paid', 'loan_amount'=> 0, 'amount_paid'=>$userLoan->amount_paid+$loanAmountToPay ]);
                                     $WalletDetails = [
@@ -242,14 +250,14 @@ class PaystackController extends Controller
                                         'balance'        => $userWallet->balance + $new_loanBal,
                                     ];
                                     $this->WalletRepository->updateWallet($Userid, $WalletDetails);
-                                    return back()->with('success', 'Payment Successful And Used To Settle Your Outstanding Loan' );
                                 }
                                 else
                                 {
 
                                     $new_loanBal = $loanAmountToPay - $amount;
                                     LoanHistory::where('user_id', $Userid)->update(['payment_status' => 'partially', 'loan_amount'=> $new_loanBal, 'amount_paid'=>$userLoan->amount_paid+$amount ]);
-                                    return back()->with('success', 'Payment Successful And Used To Cover Part Of Your Outstanding Loan. You Are Still Oweing'.$new_loanBal );
+                                    Log::debug(['Data Error' => 'Payment Successful And Used To Cover Part Of Your Outstanding Loan. You Are Still Oweing'.$new_loanBal]) ;
+
                                 }
                             }
                             else
@@ -258,16 +266,25 @@ class PaystackController extends Controller
                                     'balance'   => $newBal
                                 ];
                                 $this->WalletRepository->updateWallet($Userid, $WalletDetails);
-                                return back()->with('success', 'Payment Successful, account credited');
+                                Log::debug(['Data Error' => 'User Not Oweing Us, ANd Payment Successful, account credited']) ;
+
                             }
 
 
                         }else{
-                            return back()->with('fail', 'Payment could not be completed');
+
+                            Log::debug(['Data Error' => 'Payment could not be completed']) ;
+
                         }
                         http_response_code(200);
+                    } else {
+                        Log::debug(['Data Error' => 'User not found !!!']) ;
                     }
+                } else {
+                    Log::debug(['Data Error' => 'Amout less than 50 Naira']) ;
                 }
+            } else {
+                Log::debug(['Data Not Received']) ;
             }
 
         }
