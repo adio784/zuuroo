@@ -185,12 +185,11 @@ class PaystackController extends Controller
     {
 
         $body = $request->all();
-
-
         $response = json_encode($body);
         $data = json_decode($response);
+
         if ($data->eventType == 'SUCCESSFUL_TRANSACTION') {
-            Log::debug(['Data Received' => $body]) ;
+            Log::debug(['Data Received' => $data]) ;
             $PaymentRef = $data->eventData->product->reference;
             $deposit    = $this->PaymentRepository->getPaymentByRef($PaymentRef);
             if ( Payment::where('reference', $PaymentRef)->count() < 1 ) {
@@ -284,7 +283,7 @@ class PaystackController extends Controller
                     Log::debug(['Data Error' => 'Amout less than 50 Naira']) ;
                 }
             } else {
-                Log::debug(['Data ' => $body]) ;
+                Log::debug(['Data ' => $data]) ;
                 Log::debug(['Data Not Received' => $deposit ]) ;
             }
 
