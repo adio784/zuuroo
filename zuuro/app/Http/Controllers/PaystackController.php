@@ -229,10 +229,12 @@ class PaystackController extends Controller
 
                             // Check if user is oweing ...................................................
                             $userLoan = LoanHistory::where('user_id', $Userid)
-                                                ->where('payment_status', 'pending')
-                                                ->orWhere('payment_status', 'partially')
-                                                ->where('processing_state', 'successful')
-                                                ->first();
+                                                    ->where(function ($query) {
+                                                        $query->where('payment_status', 'pending')
+                                                            ->orWhere('payment_status', 'partially');
+                                                    })
+                                                    ->where('processing_state', 'successful')
+                                                    ->first();
 
                             if( $userLoan != "[]" )
                             {

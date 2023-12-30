@@ -88,7 +88,6 @@ class UserController extends Controller
         $data = array(
             'LoanInfo' => LoanHistory::where('user_id', $uid)
                                     ->where('processing_state', 'successful')
-                                    // ->orderBy('created_at', 'desc')
                                     ->latest()
                                     ->get(),
             'OutLoan' =>  LoanHistory::where('payment_status', 'pending')->where('processing_state', 'successful')->where('user_id', $uid)->get(),
@@ -100,8 +99,10 @@ class UserController extends Controller
         $uid = Auth::user()->id;
         $data = array(
             'LoanInfo' => LoanHistory::where('user_id', $uid)
-                                    ->where('payment_status', 'pending')
-                                    ->orWhere('payment_status', 'partially')
+                                    ->where(function ($query) {
+                                        $query->where('payment_status', 'pending')
+                                            ->orWhere('payment_status', 'partially');
+                                    })
                                     ->latest()
                                     ->get(),
         );
