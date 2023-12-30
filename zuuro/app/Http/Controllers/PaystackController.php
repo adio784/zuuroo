@@ -193,7 +193,7 @@ class PaystackController extends Controller
             Log::debug(['Data Received' => $body]) ;
             $PaymentRef = $data->eventData->product->reference;
             $deposit    = $this->PaymentRepository->getPaymentByRef($PaymentRef);
-            if (Payment::where('reference', $PaymentRef)->count() < 1) {
+            if ( Payment::where('reference', $PaymentRef)->count() < 1 ) {
                 Log::debug(['Data Sucess' => 'Reference DO Not Exist'.$deposit ]) ;
                 $uid        = $data->eventData->customer->email; //$request->input('eventData.customer.email');
                 $amt        = ($data->eventData->amountPaid / 100);
@@ -284,7 +284,7 @@ class PaystackController extends Controller
                     Log::debug(['Data Error' => 'Amout less than 50 Naira']) ;
                 }
             } else {
-
+                Log::debug(['Data ' => $body]) ;
                 Log::debug(['Data Not Received' => $deposit ]) ;
             }
 
