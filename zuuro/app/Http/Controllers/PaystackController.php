@@ -195,7 +195,7 @@ class PaystackController extends Controller
             if ( Payment::where('reference', $PaymentRef)->count() < 1 ) {
                 Log::debug(['Data Sucess' => 'Reference DO Not Exist'.$deposit ]) ;
                 $uid        = $data->eventData->customer->email; //$request->input('eventData.customer.email');
-                $amt        = ($data->eventData->amountPaid / 100);
+                $amt        = ($data->eventData->amountPaid);
 
                 if ( $amt > 50 ) {
                     Log::debug(['Data Sucess' => 'Amount Greater than 50 Naira']) ;
@@ -204,7 +204,7 @@ class PaystackController extends Controller
 
 
                     if ( $user ) {
-                        Log::debug(['Data Received' => $body]) ;
+                        Log::debug(['Data Received with user presence' => $data]) ;
 
                         $Userid     = $user->id;
                         $userWallet = Wallet::where('user_id', $Userid)->first();
