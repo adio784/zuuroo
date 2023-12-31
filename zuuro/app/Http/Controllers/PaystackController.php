@@ -110,8 +110,10 @@ class PaystackController extends Controller
                     $newBal     = $amount + $userWallet->balance;
 
                     $userLoan   = LoanHistory::where('user_id', $user_id)
-                                               ->where('payment_status', 'pending')
-                                               ->orWhere('payment_status', 'partially')
+                                               ->where(function ($query) {
+                                                    $query->where('payment_status', 'pending')
+                                                        ->orWhere('payment_status', 'partially');
+                                               })
                                                ->where('processing_state', 'successful')
                                                ->first();
 
