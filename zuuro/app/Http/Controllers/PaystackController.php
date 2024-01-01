@@ -205,7 +205,7 @@ class PaystackController extends Controller
                     $user       = User::where('email', $uid)->first();
 
 
-                    if ( $user ) {
+                    if ( $user->isNotEmpty() ) {
                         Log::debug(['Data Received with user presence' => $data]) ;
 
                         $Userid     = $user->id;
@@ -226,7 +226,7 @@ class PaystackController extends Controller
                         ];
                         $deposited = $this->PaymentRepository->createPayment($PaymentDetails);
 
-                        if ($deposited) {
+                        if ( count($deposited) !== 0) {
                             Log::debug(['Data Sucess' => 'User Payment Deposited']) ;
 
                             // Check if user is oweing ...................................................
@@ -238,8 +238,20 @@ class PaystackController extends Controller
                                                     ->where('processing_state', 'successful')
                                                     ->first();
 
-                            if( $userLoan != "[]" )
+                            if( count($userLoan) === 0 )
                             {
+
+                                $WalletDetails = [
+                                    'balance'   => $newBal
+                                ];
+                                $this->WalletRepository->updateWallet($Userid, $WalletDetails);
+                                Log::debug(['Data Error' => 'User Not Oweing Us, ANd Payment Successful, account credited']) ;
+
+
+                            }
+                            else
+                            {
+
 
                                 Log::debug(['Data Success' => 'User is Oweing us']) ;
                                 $loanAmountToPay = $userLoan->loan_amount;
@@ -262,14 +274,6 @@ class PaystackController extends Controller
                                     Log::debug(['Data Error' => 'Payment Successful And Used To Cover Part Of Your Outstanding Loan. You Are Still Oweing'.$new_loanBal]) ;
 
                                 }
-                            }
-                            else
-                            {
-                                $WalletDetails = [
-                                    'balance'   => $newBal
-                                ];
-                                $this->WalletRepository->updateWallet($Userid, $WalletDetails);
-                                Log::debug(['Data Error' => 'User Not Oweing Us, ANd Payment Successful, account credited']) ;
 
                             }
 
