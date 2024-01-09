@@ -144,7 +144,7 @@ class AirtimeController extends Controller
                                     return response()->json([
                                         'success'       => true,
                                         'statusCode'    => 200,
-                                        'message'       => 'You\'ve Purchase'. $phoneNumber. ' With '. number_format($actAmt). ' NGN Airtime'
+                                        'message'       => 'You\'ve Purchase '. $phoneNumber. ' With '. number_format($actAmt). ' NGN Airtime'
                                     ]);
 
                                     // Alert::success('Success', 'You\'ve Purchase '. $createNigData->mobile_number. ' With '. $amount. ' NGN Airtime');
