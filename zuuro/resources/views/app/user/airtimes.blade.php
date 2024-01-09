@@ -16,23 +16,23 @@
                       {{-- action="/airtimes" --}}
                       @csrf
                       {{-- {!! csrf_field() !!} --}}
-                      
+
                         <!-- Result  -->
                         <div id="result234">
                            <div class="alert bg-success text-success alert-dismissible fade show d-none" role="alert" id='successAlert'>
                               <a href="#" class="text-dark">
                                   <strong class="text-dark">Success !!!  </strong> <span id='successMsg'>  </span>
                               </a>
-                            </div> 
-                           
-                            
+                            </div>
+
+
                             <div class="alert bg-danger text-danger alert-dismissible fade show d-none" role="alert" id='errorAlert'>
                               <a href="#" class="text-white">
                                   <strong class="text-white">Oops !!!  </strong> <span id='errorMsg'> </span>
                               </a>
-                            </div> 
+                            </div>
                         </div>
-                        
+
                         <div class="row ">
                             <div class="mb-3 col-md-12" >
                               <label class="form-label" for="top_up">Topup option</label>
@@ -396,13 +396,13 @@
                       $('#clearBtn').on('click', function(){
                         $('#proceedBtn').addClass('disabled');
                       });
-                      
+
                       // Form submition =================================================================================>
                        $('#formAccountSettings').on('submit', function(e) {
                          e.preventDefault();
                          let formData = $(this).serialize();
                          $("#submitBtn").html($('<div class="spinner-border spinner-border-sm text-secondary" role="status"><span class="visually-hidden">Loading...</span></div>'));
-                         
+
                          // console.log(formData);
                          $.ajax({
                            method: 'POST',
@@ -411,7 +411,7 @@
                            dataType: "json",
                            success:function(result)
                            {
-                            //  console.log(result);
+                            console.log(result);
                              if(result != ""){
                                     if(result.statusCode == 200)
                                     {
@@ -426,7 +426,7 @@
                                         $('#errorAlert').removeClass('d-none');
                                         $('#errorMsg').append(result.message);
                                         $('.btn-close').click();
-                                        $("#submitBtn").html('Submit'); 
+                                        $("#submitBtn").html('Submit');
                                         $("#clearBtn").click();
                                     }
 

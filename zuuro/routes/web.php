@@ -107,6 +107,8 @@ Route::group(['middleware' => ['auth', 'verified']], function () {
     Route::get('/funds', [UserController::class, 'funds']);
     Route::get('/abts', [UserController::class, 'abts']);
 
+    Route::get('/request-api', [UserController::class, 'request_api']);
+
     Route::get('/clear-cache', function() {
         $output = new \Symfony\Component\Console\Output\BufferedOutput;
         \Illuminate\Support\Facades\Artisan::call('cache:clear', $output);

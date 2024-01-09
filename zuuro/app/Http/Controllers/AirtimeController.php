@@ -61,7 +61,7 @@ class AirtimeController extends Controller
             if(Hash::check($request->pin, $user->create_pin)){
 
                 if($request->top_up == 1){
-                    
+
                     $request->validate([
                         'top_up'            =>  'required',
                         'country'           =>  'required',
@@ -73,17 +73,17 @@ class AirtimeController extends Controller
 
                     // Processing Nigeria Data
                     if($request->country == 'NG'){
-                        
+
                         if($req_bal_process < $amount){
-                            
+
                             return response()->json([
                                 'success'       => false,
                                 'statusCode'    => 500,
                                 'message'       => 'Insufficient fund !!!'
                             ]);
-                            
+
                         }else{
-                            
+
                             $new_bal_process = $req_bal_process - $amount;
                             $walletDetails = [ 'balance' => $new_bal_process, 'updated_at'=> NOW() ];
                             $this->WalletRepository->updateWallet($uid, $walletDetails);
@@ -96,15 +96,20 @@ class AirtimeController extends Controller
                                 'amount'            => $actAmt,
                                 'phone'             => $phoneNumber,
                             ];
-                            
+
                             // Store returned data in DB
                             $createNigData = json_decode( $this->AirtimeRepository->createVTPassAirtime($DataDetails) ); Log::error(['err' => $createNigData]);
+                            return response()->json([
+                                'success'       => false,
+                                'statusCode'    => 500,
+                                'message'       =>$createNigData
+                            ]);
                             if( $createNigData->code == '016' ){
 
                                 $new_bal_process = $req_bal_process + $amount;
                                 $walletDetails = [ 'balance' => $new_bal_process, 'updated_at'=> NOW() ];
                                 $this->WalletRepository->updateWallet($uid, $walletDetails);
-                                
+
                                 return response()->json([
                                     'success'       => false,
                                     'statusCode'    => 500,
@@ -112,7 +117,7 @@ class AirtimeController extends Controller
                                 ]);
 
                             }else{
-                               
+
                                 $HistoryDetails = [
                                     'user_id'               =>  $uid,
                                     'plan'                  =>  $createNigData->content->transactions->product_name,
@@ -134,47 +139,47 @@ class AirtimeController extends Controller
                                 ];
                                 $query = $this->HistoryRepository->createHistory($HistoryDetails);
                                 if($query){
-                                    
+
                                     return response()->json([
                                         'success'       => true,
                                         'statusCode'    => 200,
                                         'message'       => 'You\'ve Purchase'. $phoneNumber. ' With '. number_format($actAmt). ' NGN Airtime'
                                     ]);
-                                    
+
                                     // Alert::success('Success', 'You\'ve Purchase '. $createNigData->mobile_number. ' With '. $amount. ' NGN Airtime');
-                                    
+
                                 }else{
-                                    
+
                                     return response()->json([
                                         'success'       => false,
                                         'statusCode'    => 500,
                                         'message'       => 'Transaction Failed !!!'
                                     ]);
-                                    
+
                                 }
-                                
+
                             }
                         }
-                        
+
                     }
-                    
+
                     // Processing Other Countries Data
                     else{
 
                         // Check wallet balance
                         if($req_bal_process < $amount){
-                            
+
                             return response()->json([
                                 'success'       => false,
                                 'statusCode'    => 500,
                                 'message'       => 'Insufficient fund !!!'
                             ]);
-                            
+
                         }else{
 
                             $new_bal_process = $req_bal_process - $amount;
                             $walletDetails = [ 'balance' => $new_bal_process, 'updated_at'=> NOW() ];
-                            
+
                             if($this->WalletRepository->updateWallet($uid, $walletDetails) )
                             {
                                 // Data Api Arrays
@@ -209,45 +214,45 @@ class AirtimeController extends Controller
                                         'processing_state'      =>  $response['TransferRecord']['ProcessingState'],
                                     ];
                                     $query = $this->HistoryRepository->createHistory($HistoryDetails);
-                                    
+
                                     if($query){
-                                        
+
                                         return response()->json([
                                             'success'       => true,
                                             'statusCode'    => 200,
                                             'message'       => 'Successful !!!'
                                         ]);
-                                        
+
                                     }else{
-                                        
+
                                         return response()->json([
                                             'success'       => false,
                                             'statusCode'    => 500,
                                             'message'       => 'Transaction Failed !!!'
                                         ]);
-                                        
+
                                     }
 
                                 }else{
                                     $new_bal_process = $req_bal_process + $amount;
                                     $walletDetails = [ 'balance' => $new_bal_process, 'updated_at'=> NOW() ];
                                     $this->WalletRepository->updateWallet($uid, $walletDetails);
-                                    
+
                                     return response()->json([
                                         'success'       => false,
                                         'statusCode'    => 500,
                                         'message'       => 'Error Occured, try later !!!'
                                     ]);
-                                   
+
                                 }
                             }else{
-                                
+
                                 return response()->json([
                                     'success'       => false,
                                     'statusCode'    => 500,
                                     'message'       => 'Internal Server Error, Please Retry !!!'
                                 ]);
-                                
+
                             }
 
                         }
@@ -258,25 +263,25 @@ class AirtimeController extends Controller
                 }elseif($request->top_up ==2){
 
                     if($LoanCountry){
-                        
+
                         if($req_bal_process >= 100){
-                        
+
                             return response()->json([
                                 'success'       => false,
                                 'statusCode'    => 500,
                                 'message'       => 'Your Balance Is Still High, You Cannot Loan At This Time !!!'
                             ]);
-                           
+
                         }else{
-                        
+
                             // Processing Loan Nigeria Data
                             if($request->country == 'NG'){
-    
+
                                 $new_loanBal_process = $req_loanBal_process + $amount;
                                 $walletDetails = [ 'loan_balance' => $new_loanBal_process, 'updated_at'=> NOW() ];
                                 $this->WalletRepository->updateWallet($uid, $walletDetails);
                                 $phoneNumber = str_replace('234', '0', $request->phoneNumber);
-    
+
                                 // dd($amount);
                                 $DataDetails = [
                                     'request_id'        => $requestID,
@@ -312,25 +317,25 @@ class AirtimeController extends Controller
                                     'due_date'              =>  $request->loan_term
                                 ];
                                 $query = $this->LoanHistoryRepository->createLoanHistory($HistoryDetails);
-                                
+
                                 if($query){
-                                    
+
                                     return response()->json([
                                         'success'       => true,
                                         'statusCode'    => 200,
                                         'message'       => 'You Loan '. $phoneNumber. ' With '. number_format($actAmt). ' NGN Airtime'
                                     ]);
-                                    
+
                                 }else{
-                                    
+
                                     return response()->json([
                                         'success'       => false,
                                         'statusCode'    => 500,
                                         'message'       => 'Transaction Failed !!!'
                                     ]);
-                                   
+
                                 }
-    
+
                             }else{
                                 $DataDetails = [
                                     'SkuCode'           => $skuCode,
@@ -368,68 +373,68 @@ class AirtimeController extends Controller
                                     ];
                                     $query = $this->LoanHistoryRepository->createLoanHistory($HistoryDetails);
                                     if($query){
-                                        
+
                                         return response()->json([
                                             'success'       => true,
                                             'statusCode'    => 200,
                                             'message'       => 'Succeeded !!!'
                                         ]);
-                                       
+
                                     }else{
-                                        
+
                                         return response()->json([
                                             'success'       => false,
                                             'statusCode'    => 500,
                                             'message'       => 'ITransaction Failed !!!'
                                         ]);
-                                        
+
                                     }
-    
+
                                 }
                             }
-                            
+
                         }
 
                     }else{
-                        
+
                         return response()->json([
                             'success'       => false,
                             'statusCode'    => 500,
                             'message'       => 'Sorry, loan is not available in the selected country !!!'
                         ]);
-                        
+
                     }
 
 
                 }else{
-                    
+
                     return response()->json([
                         'success'       => false,
                         'statusCode'    => 500,
                         'message'       => 'Invalid Selection, Please Make a Choice !!!'
                     ]);
-                    
+
                 }
 
             }else{
-                
+
                 return response()->json([
                     'success'       => false,
                     'statusCode'    => 500,
                     'message'       => 'Incorrect PIN !!!'
                 ]);
-               
+
             }
         }
         else
         {
-            
+
             return response()->json([
                 'success'       => false,
                 'statusCode'    => 500,
                 'message'       => 'Complete Account Verification !!!'
             ]);
-            
+
         }
         // PIN Validation
 

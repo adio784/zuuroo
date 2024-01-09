@@ -510,6 +510,14 @@ class UserController extends Controller
     }
 
 
+    // APi request VTPass
+    public function request_api()
+    {
+        date_default_timezone_set("Africa/Lagos");
+        $requestID  = date('YmdHi').rand(99, 9999999);
+        return $requestID;
+    }
+
 
 
 }

@@ -46,8 +46,9 @@ class AirtimeRepository implements AirtimeRepositoryInterface
             'api-key' => $this->ApiKey,
             'secret-key' => $this->Secrete_Key,
             'Content-Type' => 'application/json'
-        ])->post('https://sandbox.vtpass.com/api/pay', $AirtimeDetails);
+        ])->post('https://api-service.vtpass.com/api/pay', $AirtimeDetails);
         return $response;
+        //https://sandbox.vtpass.com/api/pay
     }
 
     public function createIntAirtime(array $AirtimeDetails)
