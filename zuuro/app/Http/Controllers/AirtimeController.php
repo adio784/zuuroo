@@ -91,10 +91,10 @@ class AirtimeController extends Controller
                             $phoneNumber = str_replace('234', '0', strip_tags($request->phoneNumber));
 
                             $DataDetails = [
-                                'request_id'        => $requestID,
-                                'serviceID'         => $network,
+                                'request_id'        => "'.$requestID.'",
+                                'serviceID'         => "'.$network.'",
                                 'amount'            => $actAmt,
-                                'phone'             => $phoneNumber,
+                                'phone'             => "'.$phoneNumber.'",
                             ];
 
                             // Store returned data in DB
@@ -102,7 +102,7 @@ class AirtimeController extends Controller
                             return response()->json([
                                 'success'       => false,
                                 'statusCode'    => 500,
-                                'message'       =>$createNigData
+                                'message'       => $createNigData
                             ]);
                             if( $createNigData->code == '016' ){
 
