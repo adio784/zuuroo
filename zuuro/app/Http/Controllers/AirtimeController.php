@@ -92,8 +92,8 @@ class AirtimeController extends Controller
 
                             $DataDetails = [
                                 'request_id'        => $requestID,
-                                'serviceID'         => $network,
-                                'phone'             => $phoneNumber,
+                                'serviceID'         => "mtn",//$network,
+                                'phone'             => "07035743427",$phoneNumber,
                                 'amount'            => $actAmt,
 
                             ];
