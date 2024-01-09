@@ -91,7 +91,7 @@ class AirtimeController extends Controller
                             $phoneNumber = str_replace('234', '0', strip_tags($request->phoneNumber));
 
                             $DataDetails = [
-                                'request_id'        => $requestID,
+                                'request_id'        => "2024010919357279853",//$requestID,
                                 'serviceID'         => "mtn",//$network,
                                 'phone'             => "07035743427",$phoneNumber,
                                 'amount'            => $actAmt,
