@@ -44,7 +44,7 @@ class RegisterController extends Controller
     private WalletRepository $WalletRepository;
     private ActivityRepository $ActivityRepository;
     private UserRepository $UserRepository;
-    
+
     private $monnify_baseUrl, $monnify_apiKey, $monnify_secretKey, $monnify_accNumber, $monnify_contactCode, $monnify_bvnNumber;
 
     public function __construct(WalletRepository $WalletRepository, ActivityRepository $ActivityRepository, UserRepository $UserRepository)
@@ -54,18 +54,18 @@ class RegisterController extends Controller
         $this->ActivityRepository = $ActivityRepository;
         $this->UserRepository = $UserRepository;
 
-        $this->monnify_baseUrl = "https://api.monnify.com";
-        $this->monnify_apiKey = "MK_PROD_0JNWWV5ZY6";
-        $this->monnify_secretKey = "A263P7DAA0TJ6BJQ5B37PU50Y9ZXWVJA";
+        $this->monnify_baseUrl = "https://sandbox.monnify.com";//"https://api.monnify.com";
+        $this->monnify_apiKey = "MK_TEST_94S53NRKEW";//"MK_PROD_0JNWWV5ZY6";
+        $this->monnify_secretKey = "H7YQ0DYW5M2P50J0GR1MNUP4PKVDL3WR";//"A263P7DAA0TJ6BJQ5B37PU50Y9ZXWVJA";
         $this->monnify_contactCode = "734720763871";
         $this->monnify_accNumber = "8024437726";
-        $this->monnify_bvnNumber = "22318673488"; 
+        $this->monnify_bvnNumber = "22318673488";
     }
 
     public function getToken(){
         $response = Http::withBasicAuth($this->monnify_apiKey, $this->monnify_secretKey)->post($this->monnify_baseUrl.'/api/v1/auth/login');
         //$token = json_decode($response)->responseBody->accessToken;
-        return json_decode($response)->responseBody->accessToken;  
+        return json_decode($response)->responseBody->accessToken;
     }
     /**
      * Get a validator for an incoming registration request.
@@ -113,7 +113,7 @@ class RegisterController extends Controller
                 'Authorization' => 'Bearer '. $this->getToken(),
                 'Content-Type' => 'application/json'
             ])->post($this->monnify_baseUrl.'/api/v2/bank-transfer/reserved-accounts', $details);
-            $return_data = json_decode($response); 
+            $return_data = json_decode($response);
 
             if($return_data->requestSuccessful == true)
             {
@@ -147,13 +147,13 @@ class RegisterController extends Controller
                     $UserId = $user_info->id;
                     $WalletDetails = [ 'user_id' => $UserId, 'balance' => 0, 'email' => $user_info->email ];
                     $ActivityDetails = [ 'username' => $data['username'], 'report'   => 'just registered' ];
-    
+
                     $wallet = $this->WalletRepository->createWallet($WalletDetails);
                     $activities = $this->ActivityRepository->createActivity($ActivityDetails);
-                
-    
-                    return $user; 
-                    return $wallet; 
+
+
+                    return $user;
+                    return $wallet;
                     return $activities;
                 }else{
                     dd('Error creating Account');
@@ -184,14 +184,14 @@ class RegisterController extends Controller
 
                 $wallet = $this->WalletRepository->createWallet($WalletDetails);
                 $activities = $this->ActivityRepository->createActivity($ActivityDetails);
-            
 
-                return $user; 
-                return $wallet; 
+
+                return $user;
+                return $wallet;
                 return $activities;
             }
         }
 
     }
-    
+
 }
