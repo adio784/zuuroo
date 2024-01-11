@@ -226,7 +226,7 @@ class PaystackController extends Controller
                         ];
                         $deposited = $this->PaymentRepository->createPayment($PaymentDetails);
 
-                        if ( count($deposited) !== 0) {
+                        if ( $deposited !== "[]") {
                             Log::debug(['Data Sucess' => 'User Payment Deposited']) ;
 
                             // Check if user is oweing ...................................................
@@ -238,7 +238,7 @@ class PaystackController extends Controller
                                                     ->where('processing_state', 'successful')
                                                     ->first();
 
-                            if( count($userLoan) === 0 )
+                            if( $userLoan === "" )
                             {
 
                                 $WalletDetails = [
