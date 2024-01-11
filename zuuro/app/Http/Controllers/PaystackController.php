@@ -205,7 +205,7 @@ class PaystackController extends Controller
                     $user       = User::where('email', $uid)->first();
 
 
-                    if ( $user->isNotEmpty() ) {
+                    if ( count($user) !== 0 ) {
                         Log::debug(['Data Received with user presence' => $data]) ;
 
                         $Userid     = $user->id;
