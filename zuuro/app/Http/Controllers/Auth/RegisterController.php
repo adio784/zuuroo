@@ -57,7 +57,7 @@ class RegisterController extends Controller
         $this->monnify_baseUrl = "https://sandbox.monnify.com";//"https://api.monnify.com";
         $this->monnify_apiKey = "MK_TEST_94S53NRKEW";//"MK_PROD_0JNWWV5ZY6";
         $this->monnify_secretKey = "H7YQ0DYW5M2P50J0GR1MNUP4PKVDL3WR";//"A263P7DAA0TJ6BJQ5B37PU50Y9ZXWVJA";
-        $this->monnify_contactCode = "734720763871";
+        $this->monnify_contactCode = "5787668243";//"734720763871";
         $this->monnify_accNumber = "8024437726";
         $this->monnify_bvnNumber = "22318673488";
     }
