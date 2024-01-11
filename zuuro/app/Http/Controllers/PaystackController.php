@@ -205,7 +205,7 @@ class PaystackController extends Controller
                     $user       = User::where('email', $uid)->first();
 
 
-                    if ( $user !== "[]" ) {
+                    if ( !is_null($user) ) {
                         Log::debug(['Data Received with user presence' => $data]) ;
 
                         $Userid     = $user->id;
@@ -226,7 +226,7 @@ class PaystackController extends Controller
                         ];
                         $deposited = $this->PaymentRepository->createPayment($PaymentDetails);
 
-                        if ( $deposited !== "[]") {
+                        if ( !is_null($deposited) ) {
                             Log::debug(['Data Sucess' => 'User Payment Deposited']) ;
 
                             // Check if user is oweing ...................................................
@@ -238,7 +238,7 @@ class PaystackController extends Controller
                                                     ->where('processing_state', 'successful')
                                                     ->first();
 
-                            if( $userLoan === "" )
+                            if( is_null($userLoan) )
                             {
 
                                 $WalletDetails = [
