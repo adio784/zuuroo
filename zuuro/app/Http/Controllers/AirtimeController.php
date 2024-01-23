@@ -40,7 +40,12 @@ class AirtimeController extends Controller
         date_default_timezone_set("Africa/Lagos");
         $uid        = Auth::user()->id;
         $uemail     = Auth::user()->email;
-        $repayment  = date('Y-m-d');
+        $today      = date('Y-m-d');
+        $daysToAdd  = $request->loan_term;
+        $repayment  = date("Y-m-d", strtotime("+" . $daysToAdd . " days"));
+        
+        //date('Y-m-d', strtotime(date('Y-m-d'). ' +'. $dueDate));
+
         $requestID  = date('YmdHi').rand(99, 9999999);
         $req_Account_process    = $this->WalletRepository->getWalletBalance($uid);
         $req_bal_process        = $req_Account_process->balance;
