@@ -88,7 +88,7 @@
                                             @if($Info->payment_status == 'paid')
                                                 {{ date('D-d F, Y', strtotime($Info->updated_at ) ) }}
                                             @else
-                                                <span class="badge bg-primary"> Pending </span>
+                                                <span class="badge bg-warning"> Pending </span>
                                             @endif
                                         </td>
                                 </tr>
