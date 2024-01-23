@@ -97,7 +97,7 @@
                             <select id="loan_term" class="select2 form-select" name="loan_term">
                               <option value="1">-- --</option>
                               @foreach ($LoanInfo as $loan)
-                                <option value="{{ $loan->percentage }}"> {{ $loan->labelName }} </option>
+                                <option value="{{ $loan->percentage }}"> {{ $loan->labelName .' days' }}  </option>
                               @endforeach
                             </select>
                             @error('loan_term') <span class="text-danger text-sm"> {{ $message }}  </span>@enderror

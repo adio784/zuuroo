@@ -345,6 +345,7 @@ class AirtimeController extends Controller
                                             'startedUtc'            =>  NOW(),
                                             'completedUtc'          =>  NOW(),
                                             'processing_state'      =>  $createNigData->content->transactions->status,
+                                            'loan_amount'           =>  $createNigData->amount,
                                             'repayment'             =>  $repayment,
                                             'payment_status'        =>  'pending',
                                             'due_date'              =>  $request->loan_term
