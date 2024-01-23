@@ -17,13 +17,13 @@
     @endif
     @if (Auth::user()->create_pin == '')
         <div class="alert alert-danger text-danger alert-dismissible fade show" role="alert">
-            <a href="{{ route('create_pin') }}"> 
+            <a href="{{ route('create_pin') }}">
                 {{--  --}}
                 <strong class="text-danger">Transaction PIN !!! </strong> Get your account more secure with a 4 digit PIN ...
             </a>
         </div>
     @endif
-    
+
     @if($Kyc)
         <!--@if ($Kyc->verificationStatus == 0)-->
         <div> </div>
@@ -60,7 +60,7 @@
             <div class="card-body">
                 <h5 class="card-title text-primary">Hey! {{ Auth::user()->name }}! 🎉</h5>
                 <p class="mb-4">
-                You are welcome to <span class="fw-bold">Zuuro Telecommunications</span> where we provide you 
+                You are welcome to <span class="fw-bold">Zuuro Telecommunications</span> where we provide you
                 best and easy services that makes life easier.
                 </p>
 
@@ -99,7 +99,7 @@
         </div>
 
     </div>
-    
+
     <div class="col-lg-2 col-md-2">
         <div class="card">
             <div class="card-body">
@@ -113,7 +113,7 @@
                 </div>
                 </div>
                 <span class="fw-semibold d-block mb-1">Loan Balance </span>
-                <h4 class="card-title mb-2">{{ ($OutLoan->sum('loan_amount') ) }} @if(Auth::user()->country == 'NG') {{ 'NGN' }} @else {{ 'USD' }}  @endif </h4>
+                <h4 class="card-title mb-2">{{ ($OutLoan->sum('selling_price') ) }} @if(Auth::user()->country == 'NG') {{ 'NGN' }} @else {{ 'USD' }}  @endif </h4>
             </div>
         </div>
 
@@ -126,14 +126,14 @@
         <div class="col-md-15">
         <h5 class="card-header m-0 me-2 pb-3">Bank Account Details </h5>
         <div  class="px-4">
-            <table class="p-3 table mb-4"> 
+            <table class="p-3 table mb-4">
 
                 @foreach ($Record as $item)
                     <tr class="bg-info text-white">
                         <th>{{ $item->account_name }} |</th>
                         <th> {{ $item->bank_name }} |</th>
                         <th> {{ $item->account_number }} </th>
-                    </tr> 
+                    </tr>
                     {{-- <tr>
                         <th> <span class="btn btn-sm btn-outline-primary">
                             {{ $item->account_name }} | {{ $item->bank_name }} | {{ $item->account_number }} </span> <th>
@@ -190,7 +190,7 @@
         <div class="card-header d-flex align-items-center justify-content-between">
             <h5 class="card-title m-0 me-2"> Transactions Summary</h5>
             <div class="dropdown">
-            
+
             </div>
         </div>
         <div class="card-body">
@@ -220,7 +220,7 @@
                     <h6 class="mb-0">Outbox</h6>
                 </div>
                 <div class="user-progress d-flex align-items-center gap-1">
-                    <h6 class="mb-0"><?php 
+                    <h6 class="mb-0"><?php
                         $sum = $TotalSpend->sum('selling_price');
                         echo  number_format($sum);
                 ?></h6>
@@ -249,7 +249,7 @@
         </div>
     </div>
     <!--/ Transactions -->
-    
+
 </div>
 
 
@@ -291,14 +291,14 @@
               />
             </div>
           </div>
-    
+
         @csrf
           <div class="row">
             <div class="col-6 mb-0">
                 <label for="expYear" class="form-label"> Expiration Year</label>
                 <select id="gyu" class="form-control" name="expYear">
                     <option value="" selected>-- --</option>
-                    
+
                     @for($y = date('Y'); $y <= date('Y')+10 ; $y++)
                         <option> {{ $y }} </option>
                     @endfor
@@ -322,7 +322,7 @@
                 class="form-control"
                 placeholder="000"
                 name="cvv"
-                
+
               />
             </div>
 
@@ -334,7 +334,7 @@
                   <option> Verve</option>
                 </select>
               </div>
-              
+
           </div>
           <button type="submit" class="btn btn-primary mt-4">Save changes</button>
         </div>
@@ -343,11 +343,11 @@
           <button type="button" class="btn btn-outline-secondary" data-bs-dismiss="modal">
             Close
           </button>
-          
+
         </div>
       </div>
     </div>
-    
+
   </div>
 </div>
 </div>
