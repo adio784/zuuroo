@@ -54,7 +54,10 @@ class HomeController extends Controller
             'TotalFund' => $this->PaymentRepository->getPaymentsById($uid),
             'Record' => $this->UserBankDetailsRepository->getDetailsById($UserId),
             'Recurring' => RecurringCharge::where('user_email', $UserId)->get(),
-            'OutLoan' =>  LoanHistory::where('processing_state', 'successful')
+            'OutLoan' =>  LoanHistory::where(function($chek) {
+                                            $chek->where('processing_state', 'successful')
+                                                 ->orWhere('processing_state', 'delivered');
+                                        })
                                        ->where(function ($query) {
                                             $query->where('payment_status', 'pending')
                                                 ->orWhere('payment_status', 'partially');

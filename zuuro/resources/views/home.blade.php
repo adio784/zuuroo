@@ -113,7 +113,7 @@
                 </div>
                 </div>
                 <span class="fw-semibold d-block mb-1">Loan Balance </span>
-                <h4 class="card-title mb-2">{{ ($OutLoan->sum('selling_price') ) }} @if(Auth::user()->country == 'NG') {{ 'NGN' }} @else {{ 'USD' }}  @endif </h4>
+                <h4 class="card-title mb-2">{{ ($OutLoan->sum('loan_amount') ) }} @if(Auth::user()->country == 'NG') {{ 'NGN' }} @else {{ 'USD' }}  @endif </h4>
             </div>
         </div>
 
