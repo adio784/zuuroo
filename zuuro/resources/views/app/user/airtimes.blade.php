@@ -12,7 +12,7 @@
 
                     <hr class="my-0" />
                     <div class="card-body">
-                    <form id="formAccountSettings" method="POST">
+                    <form id="formAccountSettings1" method="POST">
                       {{-- action="/airtimes" --}}
                       @csrf
                       {{-- {!! csrf_field() !!} --}}
@@ -68,6 +68,7 @@
                             <label class="form-label" for="network" id="select_network">Network </label>
                             <select id="network" class="select2 form-select" name="network_operator">
                               <option value="">-- - --</option>
+                              <option value="234">Nigeria</option>
 
                             </select>
                             @error('network_operator') <span class="text-danger text-sm"> {{ $message }}  </span>@enderror
