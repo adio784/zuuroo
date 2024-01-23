@@ -345,7 +345,7 @@ class AirtimeController extends Controller
                                             'startedUtc'            =>  NOW(),
                                             'completedUtc'          =>  NOW(),
                                             'processing_state'      =>  $createNigData->content->transactions->status,
-                                            'loan_amount'           =>  $createNigData->amount,
+                                            'loan_amount'           =>  $amount,
                                             'repayment'             =>  $repayment,
                                             'payment_status'        =>  'pending',
                                             'due_date'              =>  $request->loan_term
@@ -427,6 +427,7 @@ class AirtimeController extends Controller
                                             'startedUtc'            =>  $response['TransferRecord']['StartedUtc'],
                                             'completedUtc'          =>  $response['TransferRecord']['CompletedUtc'],
                                             'processing_state'      =>  $response['TransferRecord']['ProcessingState'],
+                                            'loan_amount'           =>  $amount,
                                             'repayment'             =>  $repayment,
                                             'payment_status'        =>  'pending',
                                             'due_date'              =>  $request->loan_term
@@ -445,10 +446,18 @@ class AirtimeController extends Controller
                                             return response()->json([
                                                 'success'       => false,
                                                 'statusCode'    => 500,
-                                                'message'       => 'ITransaction Failed !!!'
+                                                'message'       => 'Transaction Failed !!!'
                                             ]);
 
                                         }
+
+                                    } else {
+
+                                        return response()->json([
+                                            'success'       => false,
+                                            'statusCode'    => 500,
+                                            'message'       => 'Internal Server Error, Try Later !!!'
+                                        ]);
 
                                     }
                                 }
