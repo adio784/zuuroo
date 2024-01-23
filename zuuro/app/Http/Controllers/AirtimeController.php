@@ -105,19 +105,8 @@ class AirtimeController extends Controller
                             //     'statusCode'    => 500,
                             //     'message'       => 'Message'
                             // ]);
-                            if( $createNigData->code == '016' ){
 
-                                $new_bal_process = $req_bal_process + $amount;
-                                $walletDetails = [ 'balance' => $new_bal_process, 'updated_at'=> NOW() ];
-                                $this->WalletRepository->updateWallet($uid, $walletDetails);
-
-                                return response()->json([
-                                    'success'       => false,
-                                    'statusCode'    => 500,
-                                    'message'       => 'Transaction Failed, Please Try Later !!!'
-                                ]);
-
-                            }else if( $createNigData->code == '000' ){
+                            if( $createNigData->code == '000' ){
 
                                 $HistoryDetails = [
                                     'user_id'               =>  $uid,
@@ -159,6 +148,18 @@ class AirtimeController extends Controller
 
                                 }
 
+                            } else if ( $createNigData->code == '016' ) {
+
+                                $new_bal_process = $req_bal_process + $amount;
+                                $walletDetails = [ 'balance' => $new_bal_process, 'updated_at'=> NOW() ];
+                                $this->WalletRepository->updateWallet($uid, $walletDetails);
+
+                                return response()->json([
+                                    'success'       => false,
+                                    'statusCode'    => 500,
+                                    'message'       => 'Transaction Failed, Please Try Later !!!'
+                                ]);
+
                             } else {
 
                                 $new_bal_process = $req_bal_process + $amount;
@@ -168,6 +169,7 @@ class AirtimeController extends Controller
                                 return response()->json([
                                     'success'       => false,
                                     'statusCode'    => 500,
+                                    'Error'         => $createNigData,
                                     'message'       => 'Transaction Failed, Unknown Error Occurered, Try Later'
                                 ]);
                             }
