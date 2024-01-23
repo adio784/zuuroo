@@ -81,11 +81,18 @@
                                     <td>{{ date('D-d F, Y', strtotime($Info->repayment ) ) }}</td>
                                     {{-- <td>Due Date</td> <td>{{ date('D g, Y', strtotime($Info->due_date) ) }} </td> --}}
                                 </tr>
-                                @if($Info->payment_status == 'paid')
-                                    <tr>
-                                        <td>Repayment Date</td> <td> {{ date('D-d F, Y', strtotime($Info->updated_at ) ) }} </td>
-                                    </tr>
-                                @endif
+
+                                <tr>
+                                        <td>Repayment Date</td>
+                                        <td>
+                                            @if($Info->payment_status == 'paid')
+                                                {{ date('D-d F, Y', strtotime($Info->updated_at ) ) }}
+                                            @else
+                                                <span class="badge bg-primary"> Pending </span>
+                                            @endif
+                                        </td>
+                                </tr>
+
                             </table>
                         </tbody>
                     </table>
