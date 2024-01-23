@@ -43,7 +43,7 @@ class AirtimeController extends Controller
         $today      = date('Y-m-d');
         $daysToAdd  = $request->loan_term;
         $repayment  = date("Y-m-d", strtotime("+" . $daysToAdd . " days"));
-        
+
         //date('Y-m-d', strtotime(date('Y-m-d'). ' +'. $dueDate));
 
         $requestID  = date('YmdHi').rand(99, 9999999);
@@ -281,177 +281,191 @@ class AirtimeController extends Controller
                     }
 
                 }elseif($request->top_up ==2){
-
-                    if($LoanCountry){
-
-                        if($req_bal_process >= 100){
-
-                            return response()->json([
-                                'success'       => false,
-                                'statusCode'    => 500,
-                                'message'       => 'Your Balance Is Still High, You Cannot Loan At This Time !!!'
-                            ]);
-
-                        }else{
-
-                            // Processing Loan Nigeria Data
-                            if($request->country == 'NG'){
-
-                                $new_loanBal_process = $req_loanBal_process + $amount;
-                                $walletDetails = [ 'loan_balance' => $new_loanBal_process, 'updated_at'=> NOW() ];
-                                $this->WalletRepository->updateWallet($uid, $walletDetails);
-                                $phoneNumber = str_replace('234', '0', $request->phoneNumber);
-
-                                // dd($amount);
-                                $DataDetails = [
-                                    'request_id'        => $requestID,
-                                    'serviceID'         => $network,
-                                    'amount'            => $actAmt,
-                                    'phone'             => $phoneNumber,
-                                ];
-                                // dd($requestID);
-                                // Store returned data in DB
-                                $createNigData = json_decode( $this->AirtimeRepository->createVTPassAirtime($DataDetails) );
-                                //  return $createNigData;
-
-                                if ($createNigData->code == '000') {
-                                    // Store returned data in DB
-                                    $HistoryDetails = [
-                                        'user_id'               =>  $uid,
-                                        'plan'                  =>  $createNigData->content->transactions->product_name,
-                                        'purchase'              =>  'Airtime',
-                                        'country_code'          =>  $request->country,
-                                        'operator_code'         =>  $network,
-                                        'product_code'          =>  'VTU',
-                                        'transfer_ref'          =>  $createNigData->content->transactions->transactionId,
-                                        'phone_number'          =>  $createNigData->content->transactions->unique_element,
-                                        'distribe_ref'          =>  $createNigData->requestId,
-                                        'selling_price'         =>  $amount,
-                                        'receive_value'         =>  $createNigData->amount,
-                                        'send_value'            =>  $actAmt,
-                                        'receive_currency'      =>  'NGN',
-                                        'commission_applied'    =>  $createNigData->content->transactions->commission,
-                                        'startedUtc'            =>  NOW(),
-                                        'completedUtc'          =>  NOW(),
-                                        'processing_state'      =>  $createNigData->content->transactions->status,
-                                        'repayment'             =>  $repayment,
-                                        'payment_status'        =>  'pending',
-                                        'due_date'              =>  $request->loan_term
-                                    ];
-                                    $query = $this->LoanHistoryRepository->createLoanHistory($HistoryDetails);
-
-                                    if($query){
-
-                                        return response()->json([
-                                            'success'       => true,
-                                            'statusCode'    => 200,
-                                            'message'       => 'You Loan '. $phoneNumber. ' With '. number_format($actAmt). ' NGN Airtime'
-                                        ]);
-
-                                    }else{
-
-                                        return response()->json([
-                                            'success'       => false,
-                                            'statusCode'    => 500,
-                                            'message'       => 'Transaction Failed !!!'
-                                        ]);
-
-                                    }
-
-                                } else if( $createNigData->code == '016' ){
-
-                                    $new_bal_process = $req_bal_process + $amount;
-                                    $walletDetails = [ 'balance' => $new_bal_process, 'updated_at'=> NOW() ];
-                                    $this->WalletRepository->updateWallet($uid, $walletDetails);
-
-                                    return response()->json([
-                                        'success'       => false,
-                                        'statusCode'    => 500,
-                                        'message'       => 'Transaction Failed, Please Try Later !!!'
-                                    ]);
-
-                                } else {
-
-                                    $new_bal_process = $req_bal_process + $amount;
-                                    $walletDetails = [ 'balance' => $new_bal_process, 'updated_at'=> NOW() ];
-                                    $this->WalletRepository->updateWallet($uid, $walletDetails);
-
-                                    return response()->json([
-                                        'success'       => false,
-                                        'statusCode'    => 500,
-                                        'error'         => $createNigData,
-                                        'message'       => 'Transaction Failed, Unknown Error Occurered, Try Later'
-                                    ]);
-                                }
-
-                            }else{
-                                $DataDetails = [
-                                    'SkuCode'           => $network,
-                                    'SendValue'         => $actAmt,
-                                    'SendCurrencyIso'   => 'USD',
-                                    'AccountNumber'     => $request->phoneNumber,
-                                    'DistributorRef'    => $request->DistributorRef,
-                                    'ValidateOnly'      => false,
-                                    'RegionCode'        => $network
-                                ];
-                                $response = $this->AirtimeRepository->createIntAirtime($DataDetails);
-                                // return $response;
-                                if($response['ResultCode'] ==1){
-                                    $HistoryDetails = [
-                                        'user_id'               =>  $uid,
-                                        'plan'                  =>  $actAmt,
-                                        'purchase'              =>  'Airtime',
-                                        'country_code'          =>  $request->country,
-                                        'operator_code'         =>  $network,
-                                        'product_code'          =>  $network,//$skuCode
-                                        'transfer_ref'          =>  $response['TransferRecord']['TransferId']['TransferRef'],
-                                        'phone_number'          =>  $request->phoneNumber,
-                                        'distribe_ref'          =>  $response['TransferRecord']['TransferId']['DistributorRef'],
-                                        'selling_price'         =>  '',
-                                        'receive_value'         =>  $response['TransferRecord']['Price']['ReceiveValue'],
-                                        'send_value'            =>  $response['TransferRecord']['Price']['SendValue'],
-                                        'receive_currency'      =>  $response['TransferRecord']['Price']['SendCurrencyIso'],
-                                        'commission_applied'    =>  $response['TransferRecord']['CommissionApplied'],
-                                        'startedUtc'            =>  $response['TransferRecord']['StartedUtc'],
-                                        'completedUtc'          =>  $response['TransferRecord']['CompletedUtc'],
-                                        'processing_state'      =>  $response['TransferRecord']['ProcessingState'],
-                                        'repayment'             =>  $repayment,
-                                        'payment_status'        =>  'pending',
-                                        'due_date'              =>  $request->loan_term
-                                    ];
-                                    $query = $this->LoanHistoryRepository->createLoanHistory($HistoryDetails);
-                                    if($query){
-
-                                        return response()->json([
-                                            'success'       => true,
-                                            'statusCode'    => 200,
-                                            'message'       => 'Succeeded !!!'
-                                        ]);
-
-                                    }else{
-
-                                        return response()->json([
-                                            'success'       => false,
-                                            'statusCode'    => 500,
-                                            'message'       => 'ITransaction Failed !!!'
-                                        ]);
-
-                                    }
-
-                                }
-                            }
-
-                        }
-
-                    }else{
+                    // Check if loan record exist ============================================================+++
+                    $isLoan = $this->LoanHistoryRepository->getUserLoan($uid);
+                    if ( $isLoan != "[]" ) {
 
                         return response()->json([
                             'success'       => false,
                             'statusCode'    => 500,
-                            'message'       => 'Sorry, loan is not available in the selected country !!!'
+                            'message'       => 'You have an outstanding debt !!!'
                         ]);
 
+                    } else {
+
+                        if($LoanCountry){
+
+                            if($req_bal_process >= 100){
+
+                                return response()->json([
+                                    'success'       => false,
+                                    'statusCode'    => 500,
+                                    'message'       => 'Your Balance Is Still High, You Cannot Loan At This Time !!!'
+                                ]);
+
+                            }else{
+
+                                // Processing Loan Nigeria Data
+                                if($request->country == 'NG'){
+
+                                    $new_loanBal_process = $req_loanBal_process + $amount;
+                                    $walletDetails = [ 'loan_balance' => $new_loanBal_process, 'updated_at'=> NOW() ];
+                                    $this->WalletRepository->updateWallet($uid, $walletDetails);
+                                    $phoneNumber = str_replace('234', '0', $request->phoneNumber);
+
+                                    // dd($amount);
+                                    $DataDetails = [
+                                        'request_id'        => $requestID,
+                                        'serviceID'         => $network,
+                                        'amount'            => $actAmt,
+                                        'phone'             => $phoneNumber,
+                                    ];
+                                    // dd($requestID);
+                                    // Store returned data in DB
+                                    $createNigData = json_decode( $this->AirtimeRepository->createVTPassAirtime($DataDetails) );
+                                    //  return $createNigData;
+
+                                    if ($createNigData->code == '000') {
+                                        // Store returned data in DB
+                                        $HistoryDetails = [
+                                            'user_id'               =>  $uid,
+                                            'plan'                  =>  $createNigData->content->transactions->product_name,
+                                            'purchase'              =>  'Airtime',
+                                            'country_code'          =>  $request->country,
+                                            'operator_code'         =>  $network,
+                                            'product_code'          =>  'VTU',
+                                            'transfer_ref'          =>  $createNigData->content->transactions->transactionId,
+                                            'phone_number'          =>  $createNigData->content->transactions->unique_element,
+                                            'distribe_ref'          =>  $createNigData->requestId,
+                                            'selling_price'         =>  $amount,
+                                            'receive_value'         =>  $createNigData->amount,
+                                            'send_value'            =>  $actAmt,
+                                            'receive_currency'      =>  'NGN',
+                                            'commission_applied'    =>  $createNigData->content->transactions->commission,
+                                            'startedUtc'            =>  NOW(),
+                                            'completedUtc'          =>  NOW(),
+                                            'processing_state'      =>  $createNigData->content->transactions->status,
+                                            'repayment'             =>  $repayment,
+                                            'payment_status'        =>  'pending',
+                                            'due_date'              =>  $request->loan_term
+                                        ];
+                                        $query = $this->LoanHistoryRepository->createLoanHistory($HistoryDetails);
+
+                                        if($query){
+
+                                            return response()->json([
+                                                'success'       => true,
+                                                'statusCode'    => 200,
+                                                'message'       => 'You Loan '. $phoneNumber. ' With '. number_format($actAmt). ' NGN Airtime'
+                                            ]);
+
+                                        }else{
+
+                                            return response()->json([
+                                                'success'       => false,
+                                                'statusCode'    => 500,
+                                                'message'       => 'Transaction Failed !!!'
+                                            ]);
+
+                                        }
+
+                                    } else if( $createNigData->code == '016' ){
+
+                                        $new_bal_process = $req_bal_process + $amount;
+                                        $walletDetails = [ 'balance' => $new_bal_process, 'updated_at'=> NOW() ];
+                                        $this->WalletRepository->updateWallet($uid, $walletDetails);
+
+                                        return response()->json([
+                                            'success'       => false,
+                                            'statusCode'    => 500,
+                                            'message'       => 'Transaction Failed, Please Try Later !!!'
+                                        ]);
+
+                                    } else {
+
+                                        $new_bal_process = $req_bal_process + $amount;
+                                        $walletDetails = [ 'balance' => $new_bal_process, 'updated_at'=> NOW() ];
+                                        $this->WalletRepository->updateWallet($uid, $walletDetails);
+
+                                        return response()->json([
+                                            'success'       => false,
+                                            'statusCode'    => 500,
+                                            'error'         => $createNigData,
+                                            'message'       => 'Transaction Failed, Unknown Error Occurered, Try Later'
+                                        ]);
+                                    }
+
+                                }else{
+                                    $DataDetails = [
+                                        'SkuCode'           => $network,
+                                        'SendValue'         => $actAmt,
+                                        'SendCurrencyIso'   => 'USD',
+                                        'AccountNumber'     => $request->phoneNumber,
+                                        'DistributorRef'    => $request->DistributorRef,
+                                        'ValidateOnly'      => false,
+                                        'RegionCode'        => $network
+                                    ];
+                                    $response = $this->AirtimeRepository->createIntAirtime($DataDetails);
+                                    // return $response;
+                                    if($response['ResultCode'] ==1){
+                                        $HistoryDetails = [
+                                            'user_id'               =>  $uid,
+                                            'plan'                  =>  $actAmt,
+                                            'purchase'              =>  'Airtime',
+                                            'country_code'          =>  $request->country,
+                                            'operator_code'         =>  $network,
+                                            'product_code'          =>  $network,//$skuCode
+                                            'transfer_ref'          =>  $response['TransferRecord']['TransferId']['TransferRef'],
+                                            'phone_number'          =>  $request->phoneNumber,
+                                            'distribe_ref'          =>  $response['TransferRecord']['TransferId']['DistributorRef'],
+                                            'selling_price'         =>  '',
+                                            'receive_value'         =>  $response['TransferRecord']['Price']['ReceiveValue'],
+                                            'send_value'            =>  $response['TransferRecord']['Price']['SendValue'],
+                                            'receive_currency'      =>  $response['TransferRecord']['Price']['SendCurrencyIso'],
+                                            'commission_applied'    =>  $response['TransferRecord']['CommissionApplied'],
+                                            'startedUtc'            =>  $response['TransferRecord']['StartedUtc'],
+                                            'completedUtc'          =>  $response['TransferRecord']['CompletedUtc'],
+                                            'processing_state'      =>  $response['TransferRecord']['ProcessingState'],
+                                            'repayment'             =>  $repayment,
+                                            'payment_status'        =>  'pending',
+                                            'due_date'              =>  $request->loan_term
+                                        ];
+                                        $query = $this->LoanHistoryRepository->createLoanHistory($HistoryDetails);
+                                        if($query){
+
+                                            return response()->json([
+                                                'success'       => true,
+                                                'statusCode'    => 200,
+                                                'message'       => 'Succeeded !!!'
+                                            ]);
+
+                                        }else{
+
+                                            return response()->json([
+                                                'success'       => false,
+                                                'statusCode'    => 500,
+                                                'message'       => 'ITransaction Failed !!!'
+                                            ]);
+
+                                        }
+
+                                    }
+                                }
+
+                            }
+
+                        }else{
+
+                            return response()->json([
+                                'success'       => false,
+                                'statusCode'    => 500,
+                                'message'       => 'Sorry, loan is not available in the selected country !!!'
+                            ]);
+
+                        }
+
                     }
+                    // =====================================================================================+++
 
 
                 }else{
