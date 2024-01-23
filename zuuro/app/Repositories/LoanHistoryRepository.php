@@ -77,7 +77,7 @@ class LoanHistoryRepository implements LoanHistoryRepositoryInterface
                             ->where(function ($query) {
                               $query->where('payment_status', 'pending')
                                   ->orWhere('payment_status', 'partially');
-                        })->get();
+                        })->first();
     }
 
     public function deleteLoanHistory($HistoryId)
