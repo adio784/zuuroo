@@ -12,7 +12,7 @@
 
                     <hr class="my-0" />
                     <div class="card-body">
-                    <form id="formAccountSettings1" method="POST">
+                    <form id="formAccountSettings" method="POST">
                       {{-- action="/airtimes" --}}
                       @csrf
                       {{-- {!! csrf_field() !!} --}}
