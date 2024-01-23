@@ -72,7 +72,10 @@ class LoanHistoryRepository implements LoanHistoryRepositoryInterface
 
     public function getUserLoan($UserId)
     {
-        return LoanHistory::where('user_id', $UserId)->where('payment_status', 'pending')->orWhere('payment_status', 'partially')->where('processing_state', 'successful')->first();
+        return LoanHistory::where('user_id', $UserId)->where(function ($query) {
+            $query->where('payment_status', 'pending')
+                  ->orWhere('payment_status', 'partially');
+        })->where('processing_state', 'successful')->first();
     }
 
     public function deleteLoanHistory($HistoryId)
