@@ -112,7 +112,7 @@ class UserController extends Controller
         $data = array(
             'Info' => LoanHistory::join('users', 'users.id', 'loan_histories.user_id')
                                 ->join('countries', 'countries.country_code', 'loan_histories.country_code')
-                                ->select('loan_histories.user_id', 'loan_histories.transfer_ref', 'loan_histories.loan_amount', 'loan_histories.purchase', 'loan_histories.plan', 'loan_histories.phone_number', 'loan_histories.operator_code', 'loan_histories.country_code', 'loan_histories.due_date', 'loan_histories.repayment', 'loan_histories.receive_currency', 'loan_histories.payment_status', 'loan_histories.created_at', 'loan_histories.updated_at', 'loan_histories.loan_amount', 'loan_histories.amount_paid', 'countries.country_name')
+                                ->select('loan_histories.user_id', 'loan_histories.transfer_ref', 'loan_histories.selling_price', 'loan_histories.receive_value', 'loan_histories.purchase', 'loan_histories.plan', 'loan_histories.phone_number', 'loan_histories.operator_code', 'loan_histories.country_code', 'loan_histories.due_date', 'loan_histories.repayment', 'loan_histories.receive_currency', 'loan_histories.payment_status', 'loan_histories.created_at', 'loan_histories.updated_at', 'loan_histories.amount_paid', 'countries.country_name')
                                 ->where('loan_histories.transfer_ref', $id)
                                 // ->where('repayment', '<=', NOW())
                                 // ->groupBy('loan_histories.transfer_ref')

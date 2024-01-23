@@ -42,7 +42,7 @@
                                     <td>Reference</td> <td>{{$Info->transfer_ref}} </td>
                                 </tr>
                                 <tr>
-                                    <td>Amount</td> <td>{{$Info->receive_currency}} {{$Info->loan_amount}} </td>
+                                    <td>Amount</td> <td>{{$Info->receive_currency}} {{$Info->selling_price}} </td>
                                 </tr>
                                 <tr>
                                     <td>Purchase</td> <td>{{$Info->purchase}} </td>
