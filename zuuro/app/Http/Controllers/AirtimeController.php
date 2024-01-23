@@ -374,6 +374,7 @@ class AirtimeController extends Controller
                                     return response()->json([
                                         'success'       => false,
                                         'statusCode'    => 500,
+                                        'error'         => $createNigData,
                                         'message'       => 'Transaction Failed, Unknown Error Occurered, Try Later'
                                     ]);
                                 }
