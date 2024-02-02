@@ -64,7 +64,46 @@
     <script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf/1.3.4/jspdf.min.js" ></script>
 
 
+    <style>
+        .float {
+            position: fixed;
+            width: 60px;
+            height: 60px;
+            bottom: 40px;
+            right: 40px;
+            background-color: #25d366;
+            color: #FFF;
+            border-radius: 50px;
+            text-align: center;
+            font-size: 30px;
+            box-shadow: 2px 2px 3px #999;
+            z-index: 100;
+        }
 
+        .my-float {
+            margin-top: 16px;
+        }
+
+        .bounce {
+            animation: bounce 2s infinite;
+        }
+
+        @keyframes bounce {
+            0%,
+            25%,
+            50%,
+            75%,
+            100% {
+                transform: translateY(0);
+            }
+            40% {
+                transform: translateY(-20px);
+            }
+            60% {
+                transform: translateY(-12px);
+            }
+        }
+    </style>
     <style>
       #loan_receipt {
         padding: 10px;
@@ -93,6 +132,13 @@
   </head>
 
   <body>
+
+    {{-- WhatsApp float Icon --}}
+    <a href="https://wa.me/qr/47EC76PDKWBAI1" class="float bounce" target="_blank">
+        <i class="fa fa-whatsapp my-float"></i>
+        </a>
+        {{-- ........................ --}}
+
     @include('sweetalert::alert')
     {{-- @Use Alert --}}
     <!-- Layout wrapper -->

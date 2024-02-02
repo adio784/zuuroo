@@ -283,7 +283,7 @@ class AirtimeController extends Controller
                 }elseif($request->top_up ==2){
                     // Check if loan record exist ============================================================+++
                     $isLoan = $this->LoanHistoryRepository->getUserLoan($uid);
-                    if ( $isLoan != "[]" ) {
+                    if ( !empty($isLoan) ) {
 
                         return response()->json([
                             'success'       => false,

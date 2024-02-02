@@ -12,6 +12,47 @@
         <!-- Bootstrap core CSS -->
         <link href="{{ asset('vendor/bootstrap/css/bootstrap.min.css') }}" rel="stylesheet">
 
+        <style>
+            .float {
+                position: fixed;
+                width: 60px;
+                height: 60px;
+                bottom: 40px;
+                right: 40px;
+                background-color: #25d366;
+                color: #FFF;
+                border-radius: 50px;
+                text-align: center;
+                font-size: 30px;
+                box-shadow: 2px 2px 3px #999;
+                z-index: 100;
+            }
+
+            .my-float {
+                margin-top: 16px;
+            }
+
+            .bounce {
+                animation: bounce 2s infinite;
+            }
+
+            @keyframes bounce {
+                0%,
+                25%,
+                50%,
+                75%,
+                100% {
+                    transform: translateY(0);
+                }
+                40% {
+                    transform: translateY(-20px);
+                }
+                60% {
+                    transform: translateY(-12px);
+                }
+            }
+        </style>
+
 
         <!-- Additional CSS Files -->
         <link rel="stylesheet" href="{{ asset('css/fontawesome.css') }}">
@@ -32,6 +73,10 @@
     </head>
     <body class="antialiased">
 
+        <a href="https://wa.me/qr/47EC76PDKWBAI1" class="float bounce" target="_blank">
+            <i class="fa fa-whatsapp my-float"></i>
+            </a>
+
             <!-- ***** Header Area Start ***** -->
             <header class="header-area header-sticky">
                 <div class="container">
@@ -48,16 +93,16 @@
                                     <li class="scroll-to-section"><a href="#top" class="active">Home</a></li>
                                     <li class="scroll-to-section"><a href="/our_service">Services</a></li>
                                     <li class="scroll-to-section"><a href="/about_us">About Us</a></li>
-                                    <li class="scroll-to-section"><a href="/contact_us">Contact-us</a></li> 
+                                    <li class="scroll-to-section"><a href="/contact_us">Contact-us</a></li>
                                     @if (Route::has('login'))
                                         @auth
-                                            <li class="scroll-to-section"><a href="{{ url('/home') }}" target="_blank">Home</a></li> 
+                                            <li class="scroll-to-section"><a href="{{ url('/home') }}" target="_blank">Home</a></li>
                                         @else
-                                            <li class="scroll-to-section"><a href="{{ route('login') }}" target="_blank">Login</a></li> 
+                                            <li class="scroll-to-section"><a href="{{ route('login') }}" target="_blank">Login</a></li>
                                         @endauth
                                 @endif
-                                    
-                                </ul>        
+
+                                </ul>
                                 <a class='menu-trigger'>
                                     <span>Menu</span>
                                 </a>
@@ -68,7 +113,7 @@
                 </div>
             </header>
             <!-- ***** Header Area End ***** -->
-          
+
             <!-- ***** Main Banner Area Start ***** -->
             <section class="main-banner" id="top">
               <div class="container">
@@ -137,8 +182,8 @@
                   </div>
                 </div>
               </div>
-            </section>  
-          
+            </section>
+
             <!-- <section class="featured-product" id="features">
               <div class="container">
                 <div class="row">
@@ -200,8 +245,8 @@
                 </div>
               </div>
             </section> -->
-          
-          
+
+
            <section class="testimonials" id="testimonials">
               <div class="container">
                 <div class="row">
@@ -247,12 +292,12 @@
                   </div>
                 </div>
               </div>
-            </section> 
-          
-           
-          
-            <section class="footer" id="contact"> 
-              <div class="container"> 
+            </section>
+
+
+
+            <section class="footer" id="contact">
+              <div class="container">
                 <div class="row">
                   <div class="col-lg-12">
                     <ul class="social-icons">
@@ -264,8 +309,8 @@
                     </ul>
                   </div>
                   <div class="col-lg-12">
-                    <p class="copyright">Copyright © 2022 Zuuro., Ltd. All Rights Reserved. 
-                    
+                    <p class="copyright">Copyright © 2022 Zuuro., Ltd. All Rights Reserved.
+
                   </div>
                 </div>
               </div>
@@ -274,7 +319,7 @@
             <!-- Bootstrap core JavaScript -->
               <script src="{{ asset('vendor/jquery/jquery.min.js') }}"></script>
               <script src="{{ asset('vendor/bootstrap/js/bootstrap.bundle.min.js') }}"></script>
-          
+
               <script src="{{ asset('js/isotope.min.js') }}"></script>
               <script src="{{ asset('js/owl-carousel.js') }}"></script>
               <script src="{{ asset('js/lightbox.js') }}"></script>
@@ -282,6 +327,6 @@
               <script src="{{ asset('js/video.js') }}"></script>
               <script src="{{ asset('js/slick-slider.js') }}"></script>
               <script src="{{ asset('js/custom.js') }}"></script>
-           
+
     </body>
 </html>
