@@ -342,7 +342,7 @@ class DataController extends Controller
                             // Check if user already exist in loan table ---------------------------------------------------
                             $isLoan = $this->LoanHistoryRepository->getUserLoan($uid);
                             // --------------------------------------------------------------------------------------------
-                            if( $isLoan != "[]" ){
+                            if ( empty($isLoan) ) {
 
                                 if($req_bal_process >= 40){
 
