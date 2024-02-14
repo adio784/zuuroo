@@ -334,8 +334,8 @@
 
             <li class="menu-item">
                 <a href="report" class="menu-link menu-toggle">
-                  <i class="menu-icon tf-icons bx bx-report"></i>
-                  <div data-i18n="Extended UI">Report</div>
+                  <i class="menu-icon tf-icons bx bx-home"></i>
+                  <div>Report</div>
                 </a>
             </li>
 
