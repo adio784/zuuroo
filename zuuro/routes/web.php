@@ -12,6 +12,7 @@ use App\Http\Controllers\AdminController;
 use App\Http\Controllers\ProductController;
 use App\Http\Controllers\AdminDashboardController;
 use App\Http\Controllers\AdminFunctController;
+use App\Http\Controllers\DashboardController;
 use App\Http\Controllers\DingController;
 use App\Http\Controllers\KycController;
 use App\Http\Controllers\MessageDebtorsCondtroller;
@@ -176,6 +177,8 @@ Route::group([ 'middleware' => ['isLoggedAdmin'] ], function () {
     Route::get('manage_debtors', [AdminDashboardController::class, 'manage_debtors'])->name('manage_debtors');
     Route::get('manage_users_funds', [AdminDashboardController::class, 'manage_users_funds'])->name('manage_users_funds');
     Route::get('view_users_funds', [AdminDashboardController::class, 'view_users_funds'])->name('view_users_funds');
+    Route::get('/send_sms', [AdminDashboardController::class, 'view_users_funds'])->name('view_users_funds');
+    Route::get('/report', [DashboardController::class, 'dailyMetrics'])->name('report');
 
 
 
@@ -238,5 +241,7 @@ Route::group([ 'middleware' => ['isLoggedAdmin'] ], function () {
     Route::post('product_price_data', [AdminFunctController::class, 'product_price_data'])->name('product_price_data');
     Route::post('set_productLimit', [AdminFunctController::class, 'set_productLimit'])->name('set_productLimit');
     Route::post('add_service', [ServicesController::class, 'addService'])->name('add_service');
+
+
 
 });
