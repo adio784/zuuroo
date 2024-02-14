@@ -333,11 +333,11 @@
             </li>
 
             <li class="menu-item">
-                <a href="report" class="menu-link menu-toggle">
+                <a href="/report" class="menu-link">
                   <i class="menu-icon tf-icons bx bx-home"></i>
-                  <div>Report</div>
+                  <div data-i18n="Basic">Report</div>
                 </a>
-            </li>
+              </li>
 
 
 
