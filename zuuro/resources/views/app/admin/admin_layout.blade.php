@@ -332,6 +332,13 @@
               </ul>
             </li>
 
+            <li class="menu-item">
+                <a href="report" class="menu-link menu-toggle">
+                  <i class="menu-icon tf-icons bx bx-report"></i>
+                  <div data-i18n="Extended UI">Report</div>
+                </a>
+            </li>
+
 
 
             <!-- Others -->
