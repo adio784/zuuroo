@@ -31,7 +31,7 @@ class DashboardController extends Controller
 
         // Simulated logic to calculate revenue;
         $revenue = $numberOfSales * 10; // Assuming $10 per sale;
-        $sellingPrice = $allSales->sum('selling_price');
+        $sellingPrice = $allSales->sum('product_price');
         $totalCost = $allSales->sum('cost_price');
 
         // Simulated logic to calculate profit;
