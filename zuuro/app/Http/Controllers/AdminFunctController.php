@@ -60,7 +60,7 @@ class AdminFunctController extends Controller
             ]);
         }
     }
-    
+
     public function activateRepay($id) : JsonResponse {
         $isLoan = LoanLimit::whereId($id)->first();
         if($isLoan->status==1)
@@ -80,7 +80,7 @@ class AdminFunctController extends Controller
             ]);
         }
     }
-    
+
     public function isLoanlimit($id) : JsonResponse {
         $isLoan = LoanLimit::whereId($id)->first();
         if($isLoan->status==true)
@@ -154,9 +154,9 @@ class AdminFunctController extends Controller
         Alert::success('Success', 'Operation succeeded');
         return back();
     }
-    
-    
-    
+
+
+
     // ------------------------------------ DELETE PRODUCT CATEGORY --------------------------------------------
     public function delete_productCat($id) {
         ProductCategory::where('category_code', $id)->delete();
@@ -224,8 +224,8 @@ class AdminFunctController extends Controller
     }
 
     public function add_product(Request $request) {
-        
-        
+
+
         $request->validate([
             'countryName' => ['required', 'string'],
             'operator'    => ['required', 'string'],
@@ -236,9 +236,9 @@ class AdminFunctController extends Controller
             'loanprice'   => ['required', 'string'],
             'validity'    => ['required', 'string'],
         ]);
-        
-        
-        
+
+
+
 
         $countryName    = $request->countryName;
         $operator       = $request->operator;
@@ -250,12 +250,12 @@ class AdminFunctController extends Controller
         $validity       = $request->validity;
 
         $sql = Product::where('product_code', $productCode)->first();
-        
+
         // dd($sql);
-        
+
         if( $sql == null)
         {
-            
+
             Product::create([
                 'category_code'     => $productCat,
                 'country_code'      => $countryName,
@@ -273,30 +273,30 @@ class AdminFunctController extends Controller
                 'validity'          => $validity,
                 'status'            => 1
             ]);
-            
+
             if($prd){
-                        
+
                 return response()->json([
                     'success'       => true,
                     'statusCode'    => 200,
                     'message'       => 'Operation succeeded'
                 ]);
-                            
+
             }else{
-                
+
                 return response()->json([
                     'success'       => false,
                     'statusCode'    => 500,
                     'message'       => 'An Error Occured While Processing Your Request  !!!'
                 ]);
-                
+
             }
 
-            
+
         }
         else
         {
-            
+
             $prd = Product::where('product_code', $productCode)
                     ->update([
                         'category_code'     => $productCat,
@@ -308,23 +308,23 @@ class AdminFunctController extends Controller
                         'loan_price'        => $loanprice
                     ]);
                     if($prd){
-                        
+
                         return response()->json([
                             'success'       => true,
                             'statusCode'    => 200,
                             'message'       => 'Operation succeeded'
                         ]);
-                                    
+
                     }else{
-                        
+
                         return response()->json([
                             'success'       => false,
                             'statusCode'    => 500,
                             'message'       => 'An Error Occured While Processing Your Request  !!!'
                         ]);
-                        
+
                     }
-                    
+
         }
     }
 
@@ -336,7 +336,7 @@ class AdminFunctController extends Controller
             'user_id'   => ['required', 'numeric'],
             'password'  => ['required', 'string', 'max:200']
         ]);
-   
+
         $id = $request->user_id;
         $password = Hash::make($request->password);
         $make_admin = User::whereId($id)->update([ 'password'=>$password]);
@@ -499,7 +499,7 @@ class AdminFunctController extends Controller
 
     }
 
-    
+
     public function product_price_data(Request $request)
     {
         # code...
@@ -536,7 +536,7 @@ class AdminFunctController extends Controller
         }
 
     }
-    
+
     public function add_loanLimit(Request $request){
         $request->validate([
             'labelName'     => ['required', 'string'],
@@ -562,7 +562,7 @@ class AdminFunctController extends Controller
         }
     }
 
-    
+
     public function set_productLimit(Request $request)
     {
         # code...
@@ -601,7 +601,7 @@ class AdminFunctController extends Controller
         }
 
     }
-    
+
     public function update(Request $request)
     // : JsonResponse
     {
@@ -614,6 +614,7 @@ class AdminFunctController extends Controller
             'validity'      => ['required', 'string', 'max:255'],
             'loan_price'    => ['required', 'string', 'max:255'],
             'product_price' => ['required', 'string', 'max:255'],
+            'cost_price'    => ['required', 'string', 'max:255'],
             'status'        => ['required', 'numeric', 'max:2'],
         ]);
 
@@ -621,6 +622,7 @@ class AdminFunctController extends Controller
             'product_name'      =>  $request->product_name,
             'loan_price'        =>  $request->loan_price,
             'product_price'     =>  $request->product_price,
+            'cost_price'        =>  $request->cost_price,
             'validity'          =>  $request->validity,
             'status'            =>  $request->status,
         ];
@@ -639,13 +641,13 @@ class AdminFunctController extends Controller
         }
         else
         {
-            
+
             return response()->json([
                 'success'       => false,
                 'statusCode'    => 500,
                 'message'       => 'An Error Occured While Processing Your Request !!!'
-            ]);            
-      
+            ]);
+
         }
 
     }

@@ -118,7 +118,17 @@
                         @error('validity') <span class="text-danger text-sm"> {{ $message }}  </span>@enderror
                       </div>
 
-
+                      <div class="mb-3 col-md-12 col-lg-12 col-sm-12">
+                        <label for="cost_price" class="form-label">Cost Price</label>
+                        <input
+                          class="form-control"
+                          type="text"
+                          id="cost_price"
+                          name="cost_price"
+                          value="{{ $ProductInfo->cost_price }}"
+                        />
+                        @error('cost_price') <span class="text-danger text-sm"> {{ $message }}  </span>@enderror
+                      </div>
 
                       <div class="mb-3 col-md-6 col-lg-6 col-sm-12">
                         <label for="price" class="form-label">Price</label>

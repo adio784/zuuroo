@@ -20,6 +20,7 @@ class History extends Model
         'phone_number',
         'distribe_ref',
         'selling_price',
+        'cost_price',
         'receive_value',
         'send_value',
         'receive_currency',
