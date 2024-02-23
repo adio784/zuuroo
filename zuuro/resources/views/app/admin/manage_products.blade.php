@@ -7,8 +7,8 @@
     </h4>
 
     <div class="row">
-        
-        
+
+
         <div class="col-md-12 col-12 mb-md-0 mb-4">
         <div class="card">
             <h5 class="card-header">Add New Product <h5>
@@ -22,24 +22,24 @@
 
                         {{-- {!! Toastr::message() !!} --}}
                         <!-- Result  -->
-                        
+
                         <!-- Result  -->
                         <div id="result234">
                            <div class="alert bg-success text-success alert-dismissible fade show d-none" role="alert" id='successAlert'>
                               <a href="#" class="text-dark">
                                   <strong class="text-dark">Success !!!  </strong> <span id='successMsg'>  </span>
                               </a>
-                            </div> 
-                           
-                            
+                            </div>
+
+
                             <div class="alert bg-danger text-danger alert-dismissible fade show d-none" role="alert" id='errorAlert'>
                               <a href="#" class="text-white">
                                   <strong class="text-white">Oops !!!  </strong> <span id='errorMsg'> </span>
                               </a>
-                            </div> 
+                            </div>
                         </div>
-                            
-                            
+
+
                         <div id="result2">
                             @if(Session::get('success'))
                             <div class="bs-toast toast fade show bg-success" role="alert" aria-live="assertive" aria-atomic="true">
@@ -70,7 +70,7 @@
 
 
                     <div class="row">
-                        
+
                         <div class="mb-3 col-md-12 col-lg-12 col-sm-12">
                             <label for="Operators" class="form-label">Country </label>
                             <input
@@ -115,7 +115,7 @@
                               placeholder="eg: MTN 4.5 GB"
                             />
                           </div>@error('product') <span class="text-danger text-sm"> {{ $message }}  </span>@enderror
-                       
+
 
                         <div class="mb-3 col-md-6 col-lg-6 col-sm-12">
                             <label for="price" class="form-label">Price</label>
@@ -130,7 +130,7 @@
                             />
                             @error('price') <span class="text-danger text-sm"> {{ $message }}  </span>@enderror
                         </div>
-                        
+
                         <div class="mb-3 col-md-6 col-lg-6 col-sm-12">
                             <label for="productCat" class="form-label" id="product_category_toggle">Product Code</label>
                             <input type="text" class="form-control" id="product_code" name="productCode" value="{{ old('productCode') }}">
@@ -179,7 +179,7 @@
             </div>
         </div>
       </div>
-        
+
         <br> <br> <br>
         <hr />
         <div class="col-md-12 mt-4">
@@ -198,6 +198,7 @@
                             <th>Status</th>
                             <th>Operator</th>
                             <th>Product</th>
+                            <th>Cost Price</th>
                             <th>Price</th>
                             <th></th>
                         </thead>
@@ -207,22 +208,23 @@
                                 <tr>
                                     <td>{{ $dt }}</td>
                                     <td>{{ $Product->country_name  }} </td>
-                                    <td><span class="badge @if($Product->status == 1 ) {{ 'bg-success' }} @else {{ 'bg-danger' }} @endif"> 
+                                    <td><span class="badge @if($Product->status == 1 ) {{ 'bg-success' }} @else {{ 'bg-danger' }} @endif">
                                     @if($Product->status == 1) {{ 'Active' }} @else {{ 'Pending' }} @endif</span></td>
                                     <td>{{ $Product->operator_code  }}</td>
                                     <td>{{ $Product->product_name}}</td>
-                                    <td>{{ $Product->product_price }}</td>
+                                    <td>{{ number_format($Product->cost_price) }}</td>
+                                    <td>{{ number_format($Product->product_price) }}</td>
                                     <td style="width:50x">
-                                        
+
                                         @if( Session('LoggedAdminRole') == 1 )
                                         <!--<a href="/delete_product/{{$Product->product_code}}" disabled class="" onclick="confirm('Are you sure to continue');"> <span class="avatar-initial rounded bg-label-danger p-1"><i class="bx bx-trash"></i></span> </a>-->
                                         @endif
-                                        
+
                                         @if( Session('LoggedAdminRole') == 1 )
                                             @if($Product->status ==0)
                                             <!--href="/activateProduct/{{ $Product->product_code }}"-->
                                             <button class="badge {{ 'bg-success text-dark' }}  activate_product" id="{{ $Product->product_code }}">
-                                                Activate 
+                                                Activate
                                             </button>
                                             @else
                                             <!--href="/deactivateProduct/{{ $Product->product_code }}"-->
@@ -231,8 +233,8 @@
                                             </button>
                                             @endif
                                         @endif
-                                      
-                                      
+
+
                                         @if( Session('LoggedAdminRole') == 1 || Session('LoggedAdminRole') == 2)
                                         <a href="/edit_product/{{$Product->product_code}}" class=""> <span class="avatar-initial rounded bg-label-primary p-1"><i class="bx bx-pencil"></i></span> </a>
                                         @endif
@@ -246,11 +248,11 @@
             </div>
             </div>
         </div>
-        
+
         </div>
     </div>
-    
-    
+
+
     </div>
 </div>
 
@@ -294,7 +296,7 @@
 //   Submitting form with Ajax ==============================================================================
     $('#add_productForm').submit(function(event) {
         event.preventDefault();
-        
+
         // alert('Form submitted');
         let formData = $(this).serialize();
         $("#submitBtn").html($('<div class="spinner-border spinner-border-sm text-secondary" role="status"><span class="visually-hidden">Loading...</span></div>'));
@@ -328,8 +330,8 @@
 //   Activate ==============================================================================
     $('.activate_product').click(function(event) {
         event.preventDefault();
-        
-        
+
+
         let catId = $(this).attr('id');
         $('.activate_product').html($('<div class="spinner-border spinner-border-sm text-secondary" role="status"><span class="visually-hidden">Loading...</span></div>'));
         alert(catId);
@@ -356,13 +358,13 @@
             }
         });
     });
-    
-    
+
+
 //   DeActivate ==============================================================================
     $('.deactivate_product').click(function(event) {
         event.preventDefault();
-        
-        
+
+
         let catId = $(this).attr('id');
         $('.deactivate_product').html($('<div class="spinner-border spinner-border-sm text-secondary" role="status"><span class="visually-hidden">Loading...</span></div>'));
         alert(catId);
@@ -392,6 +394,6 @@
 </script>
 
 
-                    
-                    
+
+
 @endsection

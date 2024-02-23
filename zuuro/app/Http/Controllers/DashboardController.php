@@ -5,6 +5,7 @@ namespace App\Http\Controllers;
 use App\Models\History;
 use App\Models\LoanHistory;
 use App\Models\User;
+use App\Models\Wallet;
 use Carbon\Carbon;
 
 use Illuminate\Http\Request;
@@ -69,6 +70,10 @@ class DashboardController extends Controller
 
         $unpaidLoan = $loan - $paidLoan;
 
+        // Total wallet fund
+        $twallet = Wallet::whereDate('created_at', Carbon::now())->get();
+        $totalwallet = $twallet->sum('balance');
+
         return view('app.admin.dashboard', compact(
             'customers',
             'newCustomers',
@@ -78,7 +83,8 @@ class DashboardController extends Controller
             'cost',
             'loan',
             'paidLoan',
-            'unpaidLoan'
+            'unpaidLoan',
+            'totalwallet'
         ));
     }
 }
