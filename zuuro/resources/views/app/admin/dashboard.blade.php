@@ -7,7 +7,7 @@
                 <div class="card">
                     <div class="card-body">
                         <h5 class="card-title">New Customers</h5>
-                        <p class="card-text">Total new customers for the day: </p>
+                        <p class="card-text">Total new customers  </p>
                         <p class="h2">{{ $newCustomers }}</p>
                     </div>
                 </div>
@@ -17,7 +17,7 @@
                 <div class="card">
                     <div class="card-body">
                         <h5 class="card-title">Number of Sales</h5>
-                        <p class="card-text">Total number of sales for the day: </p>
+                        <p class="card-text">Total number of sales  </p>
                         <p class="h2">{{ $numberOfSales }}</p>
                     </div>
                 </div>
@@ -25,7 +25,7 @@
         </div>
 
         <div class="row mt-4">
-            <div class="col-md-6">
+            <div class="col-md-12">
                 <div class="card">
                     <div class="card-body">
                         <h5 class="card-title">Financial Overview</h5>
@@ -40,7 +40,7 @@
                 <div class="card">
                     <div class="card-body">
                         <h5 class="card-title">Customer</h5>
-                        <p class="card-text">Total number of customers: </p>
+                        <p class="card-text">Total number of customers </p>
                         <p class ="h2">{{ $customers }}</p>
                     </div>
                 </div>
@@ -50,7 +50,7 @@
                 <div class="card">
                     <div class="card-body">
                         <h5 class="card-title">Profit</h5>
-                        <p class="card-text">Total profit for the day: </p>
+                        <p class="card-text">Total profit  </p>
                         <p class ="h2">{{ $profit }}</p>
                     </div>
                 </div>
@@ -63,7 +63,7 @@
                 <div class="card">
                     <div class="card-body">
                         <h5 class="card-title">Cost</h5>
-                        <p class="card-text">Total cost for the day:</p>
+                        <p class="card-text">Total cost </p>
                         <p class = "h2">{{ $cost }} </p>
                     </div>
                 </div>
@@ -73,7 +73,7 @@
                 <div class="card">
                     <div class="card-body">
                         <h5 class="card-title">Total Sale</h5>
-                        <p class="card-text">Total sales of the day: </p>
+                        <p class="card-text">Total sales</p>
                         <p class="h2">{{ number_format($totalSale, 2) }}</p>
                     </div>
                 </div>
@@ -85,7 +85,7 @@
                 <div class="card">
                     <div class="card-body">
                         <h5 class="card-title">Paid Loan</h5>
-                        <p class="card-text">Total paid loan for the day: </p>
+                        <p class="card-text">Total paid loan  </p>
                         <p class = "h2">{{ $paidLoan }} </p>
                     </div>
                 </div>
@@ -95,7 +95,7 @@
                 <div class="card">
                     <div class="card-body">
                         <h5 class="card-title">Unpaid Loan</h5>
-                        <p class="card-text">Total unpaid loan for the day: </p>
+                        <p class="card-text">Total unpaid loan  </p>
                         <p class="h2">{{ $unpaidLoan }}</p>
                     </div>
                 </div>
@@ -105,7 +105,7 @@
                 <div class="card">
                     <div class="card-body">
                         <h5 class="card-title">Total Wallet</h5>
-                        <p class="card-text">Total wallet fund for the day: </p>
+                        <p class="card-text">Total wallet fund  </p>
                         <p class="h2">{{ number_format($totalwallet, 2) }}</p>
                     </div>
                 </div>
@@ -115,7 +115,7 @@
                 <div class="card">
                     <div class="card-body">
                         <h5 class="card-title">All Loan</h5>
-                        <p class="card-text">Total loan taken for the day:</p>
+                        <p class="card-text">Total loan taken </p>
                         <p class="h2"> {{ number_format($loan) }}</p>
                     </div>
                 </div>

@@ -178,7 +178,8 @@ Route::group([ 'middleware' => ['isLoggedAdmin'] ], function () {
     Route::get('manage_users_funds', [AdminDashboardController::class, 'manage_users_funds'])->name('manage_users_funds');
     Route::get('view_users_funds', [AdminDashboardController::class, 'view_users_funds'])->name('view_users_funds');
     Route::get('/send_sms', [AdminDashboardController::class, 'view_users_funds'])->name('send_sms');
-    Route::get('/report', [DashboardController::class, 'dailyMetrics'])->name('report');
+    Route::post('/report', [DashboardController::class, 'dailyMetrics'])->name('report');
+    Route::get('/pre_report', [DashboardController::class, 'pre_report'])->name('pre_report');
 
 
 

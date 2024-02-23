@@ -333,7 +333,7 @@
             </li>
 
             <li class="menu-item">
-                <a href="/report" class="menu-link">
+                <a href="/pre_report" class="menu-link">
                   <i class="menu-icon tf-icons bx bx-home"></i>
                   <div data-i18n="Basic">Report</div>
                 </a>

@@ -13,17 +13,33 @@ use Illuminate\Support\Facades\View;
 
 class DashboardController extends Controller
 {
-    public function dailyMetrics()
+
+    public function pre_report()
     {
+        return view('app.admin.pre_report');
+    }
+
+    public function dailyMetrics(Request $request)
+    {
+
+        $request->validate([
+            'from_date' => ['required', 'string', 'max:255'],
+            'to_date'   => ['required', 'string', 'max:255'],
+        ]);
+
+        $fromDate       = $request->from_date;
+        $toDate         = $request->to_date;
+
         // Simulated logic to get new customers for the day;
         $tnoCustomer    = User::get();
         $customers      = $tnoCustomer->count();
 
-        $tdUser         = User::whereDate('created_at', Carbon::now())->get();
+        // Carbon::now()
+        $tdUser         = User::whereBetween('created_at', [$fromDate, $toDate])->get();
         $newCustomers   = $tdUser->count();
 
         // Simulated logic to calculate number of sales;
-        $allSales       = History::whereDate('created_at', Carbon::now())
+        $allSales       = History::whereBetween('created_at', [$fromDate, $toDate])
                             ->where(function ($query) {
                                 $query->where('processing_state', 'successful')
                                     ->orWhere('processing_state', 'delivered')
@@ -44,7 +60,7 @@ class DashboardController extends Controller
         $cost           = $totalCost;
 
         // Simulated logic to calculate total loan taken for the day;
-        $allLoan        = LoanHistory::whereDate('created_at', Carbon::now())
+        $allLoan        = LoanHistory::whereBetween('created_at', [$fromDate, $toDate])
                                 ->where(function ($query) {
                                         $query->where('processing_state', 'successful')
                                         ->orWhere('processing_state', 'delivered');
@@ -57,7 +73,7 @@ class DashboardController extends Controller
         $loan           = $allLoan->sum('loan_amount'); // Assuming loans are in multiples of $100;
 
         // Simulated logic to calculate total paid loan for the day;
-        $ptdLoan        = LoanHistory::whereDate('created_at', Carbon::now())
+        $ptdLoan        = LoanHistory::whereBetween('created_at', [$fromDate, $toDate])
                                 ->where(function ($query) {
                                         $query->where('processing_state', 'successful')
                                         ->orWhere('processing_state', 'delivered');
@@ -70,10 +86,10 @@ class DashboardController extends Controller
 
         // Simulated logic to calculate total unpaid loan for the day;
 
-        $unpaidLoan     = $loan - $paidLoan;
+        $unpaidLoan     = $loan;
 
         // Total wallet fund
-        $twallet        = Wallet::whereDate('created_at', Carbon::now())->get();
+        $twallet        = Wallet::whereBetween('created_at', [$fromDate, $toDate])->get();
         $totalwallet    = $twallet->sum('balance');
 
         return view('app.admin.dashboard', compact(
