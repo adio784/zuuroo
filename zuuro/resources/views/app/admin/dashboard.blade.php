@@ -58,6 +58,7 @@
         </div>
 
         <div class="row mt-4">
+
             <div class="col-md-6">
                 <div class="card">
                     <div class="card-body">
@@ -68,18 +69,18 @@
                 </div>
             </div>
 
-            <div class="col-md-6">
+            <div class="col-md-6 mt-3">
                 <div class="card">
                     <div class="card-body">
-                        <h5 class="card-title">All Loan</h5>
-                        <p class="card-text">Total loan taken for the day:</p>
-                        <p class="h2"> {{ number_format($loan) }}</p>
+                        <h5 class="card-title">Total Sale</h5>
+                        <p class="card-text">Total sales of the day: </p>
+                        <p class="h2">{{ number_format($totalSale, 2) }}</p>
                     </div>
                 </div>
             </div>
         </div>
 
-        <div class="row mt-4">
+        <div class="row mt-3">
             <div class="col-md-6">
                 <div class="card">
                     <div class="card-body">
@@ -106,6 +107,16 @@
                         <h5 class="card-title">Total Wallet</h5>
                         <p class="card-text">Total wallet fund for the day: </p>
                         <p class="h2">{{ number_format($totalwallet, 2) }}</p>
+                    </div>
+                </div>
+            </div>
+
+            <div class="col-md-6 mt-3">
+                <div class="card">
+                    <div class="card-body">
+                        <h5 class="card-title">All Loan</h5>
+                        <p class="card-text">Total loan taken for the day:</p>
+                        <p class="h2"> {{ number_format($loan) }}</p>
                     </div>
                 </div>
             </div>

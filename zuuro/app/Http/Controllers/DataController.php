@@ -75,19 +75,21 @@ class DataController extends Controller
 
         // -----------------------------------GET PROUCT DETAILS --------------------------------------------------------
         if($request->country == 'NG'){
-            $prdD = Product::where('product_code', $request->data_plan)->first();
-            $skuCode = $prdD->product_code;
-            $product_price =$prdD->product_price;
-            $sendValue =$prdD->send_value;
-            $product_name =$prdD->product_name;
+            $prdD           = Product::where('product_code', $request->data_plan)->first();
+            $skuCode        = $prdD->product_code;
+            $product_price  = $prdD->product_price;
+            $sendValue      = $prdD->send_value;
+            $product_name   = $prdD->product_name;
+            $cost_price     = $prdD->cost_price;
         }
         else{
             // return $request->data_plan;
-            $arrayData = explode(",", $request->data_plan);
-            $skuCode = $arrayData[0];
-            $product_price = $arrayData[1];
-            $sendValue = $arrayData[2];
-            $data_plan = $arrayData[2];
+            $arrayData      = explode(",", $request->data_plan);
+            $skuCode        = $arrayData[0];
+            $product_price  = $arrayData[1];
+            $cost_price     = $arrayData[1];
+            $sendValue      = $arrayData[2];
+            $data_plan      = $arrayData[2];
             // return $request->country;
         }
         // ------------------------------------------------------------------------------------------------------------
@@ -187,6 +189,7 @@ class DataController extends Controller
                                     'phone_number'          =>  $createNigData->mobile_number,
                                     'distribe_ref'          =>  $customer_ref,
                                     'selling_price'         =>  $product_price,
+                                    'cost_price'            =>  $cost_price,
                                     'receive_value'         =>  $createNigData->plan_name,
                                     'send_value'            =>  $createNigData->plan_name,
                                     'receive_currency'      =>  'NGN',
@@ -266,7 +269,8 @@ class DataController extends Controller
                                         'transfer_ref'          =>  $response->TransferRecord->TransferId->TransferRef,
                                         'phone_number'          =>  $request->phoneNumber,
                                         'distribe_ref'          =>  $response->TransferRecord->TransferId->DistributorRef,
-                                        'selling_price'         =>  '',
+                                        'selling_price'         =>  $product_price,
+                                        'cost_price'            =>  $cost_price,
                                         'receive_value'         =>  $response->TransferRecord->Price->ReceiveValue,
                                         'send_value'            =>  $response->TransferRecord->Price->SendValue,
                                         'receive_currency'      =>  $response->TransferRecord->Price->SendCurrencyIso,
@@ -393,6 +397,7 @@ class DataController extends Controller
                                                 'phone_number'          =>  $createNigData->mobile_number,
                                                 'distribe_ref'          =>  $customer_ref,
                                                 'selling_price'         =>  $product_price,
+                                                'cost_price'            =>  $cost_price,
                                                 'receive_value'         =>  $createNigData->plan_name,
                                                 'send_value'            =>  $createNigData->plan_name,
                                                 'receive_currency'      =>  'NGN',
@@ -465,7 +470,8 @@ class DataController extends Controller
                                                 'transfer_ref'          =>  $response->TransferRecord->TransferId->TransferRef,
                                                 'phone_number'          =>  $request->phoneNumber,
                                                 'distribe_ref'          =>  $response->TransferRecord->TransferId->DistributorRef,
-                                                'selling_price'         =>  '',
+                                                'selling_price'         =>  $product_price,
+                                                'cost_price'            =>  $cost_price,
                                                 'receive_value'         =>  $response->TransferRecord->Price->ReceiveValue,
                                                 'send_value'            =>  $response->TransferRecord->Price->SendValue,
                                                 'receive_currency'      =>  $response->TransferRecord->Price->SendCurrencyIso,
